@@ -24,21 +24,8 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
                                 description=""
                               )
         super(AchievementTaskSetAdmin,self).save_model(request, obj, form, change)
-        
-#def check_points(self, instance):
-    #task_list = BadgeTaskSet.objects.get(slug=obj.slug).tasks.all()
-    #solved_all = True
-    #for task in task_list:
-        #if not Review.objects.filter(submit__user=instance.submit.user, 
-                                #submit__receiver__in=task.submit_receivers.all(), 
-                                #score=100).exists():
-            #solved_all = False
 
-    #return solved_all
 
-            
-        
-    
     def save_related(self, request, form, formsets, change):
         super(AchievementTaskSetAdmin,self).save_related(request, form, formsets, change)
         achievement = Achievement.objects.get(slug=self.slug)
@@ -51,7 +38,7 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
             solved_all = True
             for task in task_list:
                 if not Review.objects.filter(submit__user=user,
-                                        submit__receiver__in=task.submit_receivers.all(), 
+                                        submit__receiver__in=task.submit_receivers.all(),
                                         score=100).exists():
                     solved_all = False
 
