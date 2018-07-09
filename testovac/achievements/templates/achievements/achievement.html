@@ -1,0 +1,16 @@
+{% comment %}
+	This is the html for displaying an individual achievement on the site. It expects that
+	you will pass it a achievement object called "achievement".
+
+	Here is an example:
+	<div class="achievements">
+		{% for achievement in user_profile.user.achievements.all %}
+			{% include "achievements/achievement.html" %}
+		{% endfor %}
+	</div>
+
+{% endcomment %}
+
+<a href="{{ achievement.get_absolute_url }}" title="{{ achievement.name }}:{{ achievement.description }}">
+	<span class="level_{{ achievement.level}} metal">●</span> {{ achievement.name }}
+</a>

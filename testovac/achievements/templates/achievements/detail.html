@@ -1,0 +1,17 @@
+{% extends "achievements/overview.html" %}
+{% load achievements_tags %}
+{% load humanize %}
+
+{% block page_content %}
+<div id="achievements_tank">
+	<h1>{% block head_title %}Achievement: {{ achievement.name }}{% endblock %}</h1>
+    <p class="info_blurb">{{ achievement.description }}</p>
+	<ul class="users">
+		{% for u in users %}
+			<li><a href='{{ u.get_absolute_url }}'>{{ u.username }}</a></li>
+		{% empty %}
+			<li>Nobody has earned this achievement!</li>
+		{% endfor %}
+    </ul>
+</div>
+{% endblock %}

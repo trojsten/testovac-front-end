@@ -63,5 +63,10 @@ def menu(context):
             'text': 'Admin',
             'link': reverse('admin:index'),
         })
+        items.append({
+            'url_regex': r'^/achievements',
+            'text': 'Achievements',
+            'link': reverse('achievement_overview'),
+        })
 
     return {'items': items}

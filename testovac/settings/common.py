@@ -68,6 +68,8 @@ INSTALLED_APPS = (
     'wiki.plugins.macros',
 
     'news',
+
+    'testovac.achievements',
 )
 
 MIDDLEWARE_CLASSES = (
