@@ -25,6 +25,11 @@ def static_menu_items(request):
             'text': _('Results'),
             'link': reverse('results_index'),
         },
+        {
+            'url_regex': r'^/achievements',
+            'text': _('Achievements'),
+            'link': reverse('achievement_overview'),
+        },
     ]
 
     return items
@@ -63,10 +68,6 @@ def menu(context):
             'text': 'Admin',
             'link': reverse('admin:index'),
         })
-        items.append({
-            'url_regex': r'^/achievements',
-            'text': 'Achievements',
-            'link': reverse('achievement_overview'),
-        })
+        
 
     return {'items': items}

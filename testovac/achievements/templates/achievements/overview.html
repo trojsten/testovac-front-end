@@ -25,19 +25,18 @@
 {% endblock %}
 
 {% block page_content %}
-<div id="achievements_tank">
-    <table class="achievements">
-        {% for achievement in achievements %}
-        <tr class="{% cycle 'highlighted' '' %}">
-            <td class="checkmarks">
-                {% if achievement|is_in:request.user.achievements.all %}<span title="You have earned this achievement">✔</span>{% endif %}&nbsp;
-            </td>
-            <td class="achievement">
-                {% include "achievements/achievement.html" %} × {{ achievement.user.count|intcomma }}&nbsp;
-            </td>
-            <td class="achievement_description">{{ achievement.description }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+<table class="table achievements">
+    {% for achievement in achievements %}
+    <tr class="{% cycle 'highlighted' '' %}">
+        <td class="checkmarks col-xs-1">
+            {% if achievement|is_in:request.user.achievements.all %}<span title="You have earned this achievement">✔</span>{% endif %}&nbsp;
+        </td>
+        <td class="achievement col-xs-4">
+            {% include "achievements/achievement.html" %} × {{ achievement.user.count|intcomma }}&nbsp;
+        </td>
+        <td class="achievement_description col-xs-7">{{ achievement.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}
