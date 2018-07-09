@@ -12,6 +12,7 @@ import testovac.login.urls
 import testovac.tasks.urls
 import testovac.submit.urls
 import testovac.results.urls
+import testovac.achievements.urls
 from testovac.admin import admin_site_custom_index_view
 
 
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^submit/', include(testovac.submit.urls)),
     url(r'^results/', include(testovac.results.urls)),
     url(r'^login/', include(testovac.login.urls)),
+    url(r'^achievements/', include(testovac.achievements.urls)),
 ]
 
 urlpatterns += [
