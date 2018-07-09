@@ -29,10 +29,13 @@
     {% for achievement in achievements %}
     <tr class="{% cycle 'highlighted' '' %}">
         <td class="checkmarks col-xs-1">
-            {% if achievement|is_in:request.user.achievements.all %}<span title="You have earned this achievement">✔</span>{% endif %}&nbsp;
+            {% if achievement|is_in:request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %} 
+            <div class="pull-right">
+                {{ achievement.user.count|intcomma }} × 
+            </div>
         </td>
         <td class="achievement col-xs-4">
-            {% include "achievements/achievement.html" %} × {{ achievement.user.count|intcomma }}&nbsp;
+            {% include "achievements/achievement.html" %}
         </td>
         <td class="achievement_description col-xs-7">{{ achievement.description }}</td>
     </tr>
