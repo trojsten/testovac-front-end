@@ -22,20 +22,16 @@ def results_table(context, slug, task_list):
 
     table_data = cache.get(slug)
     if table_data is None:
-        table_data = ResultsGenerator(User.objects.all(), task_list).generate_result_table_context()
+        users = User.objects.filter(groups__name=request.GET.get('group')) if request.GET.get('group') else User.objects.all()
+        table_data = ResultsGenerator(users, task_list).generate_result_table_context()
         cache.set(slug, table_data)
 
-    if request.GET.get('group', False):
-        shown_users = User.objects.filter(groups__name=request.GET.get('group'))
-    else:
-        shown_users = False
     return {
         'tasks': task_list,
         'table_data': table_data,
         'max_sum': max_sum,
         'show_staff': is_true(request.GET.get('show_staff', request.user.is_staff)),
         'user': request.user,
-        'shown_users': shown_users, 
     }
 
 
