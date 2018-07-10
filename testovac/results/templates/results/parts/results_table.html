@@ -24,16 +24,18 @@
         </thead>
         <tbody>
             {% for row in table_data %}
-                {% if not row.user.is_staff or show_staff %}
-                    <tr {% if user == row.user %}class="info"{% endif %}>
-                        <td>{% if row.rank %}{{ row.rank }}.{% endif %}</td>
-                        <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
-                        <td>{{ row.user.username }}</td>
-                        <td>{{ row.sum|points_format }}</td>
-                        {% for task_score in row.task_points %}
-                            <td>{{ task_score|points_format }}</td>
-                        {% endfor %}
-                    </tr>
+                {% if not shown_users or row.user in shown_users %}
+                    {% if not row.user.is_staff or show_staff %}
+                        <tr {% if user == row.user %}class="info"{% endif %}>
+                            <td>{% if row.rank %}{{ row.rank }}.{% endif %}</td>
+                            <td>{{ row.user.first_name }} {{ row.user.last_name }}</td>
+                            <td>{{ row.user.username }}</td>
+                            <td>{{ row.sum|points_format }}</td>
+                            {% for task_score in row.task_points %}
+                                <td>{{ task_score|points_format }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </tbody>
