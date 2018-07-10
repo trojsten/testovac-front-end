@@ -9,6 +9,9 @@ from testovac.submit.models import Review
 from testovac.tasks.models import Task
 
 
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('slug', 'name', 'description')
+
 class AchievementTaskSetAdmin(admin.ModelAdmin):
     list_display = ('slug', 'name')
     exclude = ('achievement', )
@@ -46,3 +49,4 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
                 achievement.award_to(user)
 
 admin.site.register(AchievementTaskSet, AchievementTaskSetAdmin)
+admin.site.register(Achievement, AchievementAdmin)
