@@ -20,11 +20,12 @@ def results_table(context, slug, task_list):
     request = context['request']
     max_sum = sum(task.max_points for task in task_list)
 
-    table_data = cache.get(slug)
+    group = request.GET.get('group')
+    table_data = cache.get(slug+str(group))
     if table_data is None:
-        users = User.objects.filter(groups__name=request.GET.get('group')) if request.GET.get('group') else User.objects.all()
+        users = User.objects.filter(groups__name=group) if group else User.objects.all()
         table_data = ResultsGenerator(users, task_list).generate_result_table_context()
-        cache.set(slug, table_data)
+        cache.set(slug+str(group), table_data)
 
     return {
         'tasks': task_list,
