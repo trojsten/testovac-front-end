@@ -6,7 +6,7 @@ from django.utils.module_loading import import_string
 
 from testovac.tasks.models import Competition, Task
 from testovac.results.generator import ResultsGenerator
-
+from testovac.utils import is_true
 
 def contest_list(request):
     visible_contests = Competition.objects.get(pk=settings.CURRENT_COMPETITION_PK).get_visible_contests(request.user)
@@ -21,12 +21,34 @@ def contest_list(request):
         receivers_string = ','.join(map(str, receivers))
         receiver_lists_as_strings.append(receivers_string)
 
-    template_data = {
-        'contests_with_receivers': zip(visible_contests, receiver_lists_as_strings),
-        'user_task_points': ResultsGenerator(
+    user_task_points = ResultsGenerator(
             User.objects.filter(pk=request.user.pk), Task.objects.filter(contest__in=visible_contests)
         ).get_user_task_points()
+
+    completed_tasks=[]
+    completed_contests=[]
+    hide_finished = is_true(request.GET.get('hide_finished', False))
+    if hide_finished:
+        for task in Task.objects.filter(contest__in=visible_contests):
+            if user_task_points[request.user.pk][task.pk] == task.max_points:
+                completed_tasks.append(task)
+
+        for contest in visible_contests:
+            completed=True
+            for task in contest.task_set.all():
+                if not task in completed_tasks:
+                    completed=False
+            if completed:
+                completed_contests.append(contest)
+
+    template_data = {
+        'contests_with_receivers': zip(visible_contests, receiver_lists_as_strings),
+        'user_task_points': user_task_points,
+        'completed_tasks': completed_tasks,
+        'completed_contests': completed_contests,
+        'hide_finished': hide_finished,
     }
+
     return render(
         request,
         'tasks/contest_list.html',
