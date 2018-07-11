@@ -10,6 +10,21 @@
         <li class="pull-left">
             <h1>{% trans 'Results' %}</h1>
         </li>
+
+        <li class="pull-right">
+            <div class="btn-group">
+                {% if group %}
+                    <a href="?group=None" class="btn btn-default btn-sm">
+                        {% trans 'Show all' %}
+                    </a>
+                {% else %}
+                    <a href="?group=ls_2018" class="btn btn-default btn-sm">
+                        {% trans 'Only ls 2018' %}
+                    </a>
+                {% endif %}
+            </div>
+        </li>
+
         {% if user.is_staff %}
             <li class="pull-right">
                 <div class="btn-group" role="group">

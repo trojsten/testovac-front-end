@@ -21,6 +21,8 @@ def results_table(context, slug, task_list):
     max_sum = sum(task.max_points for task in task_list)
 
     group = request.GET.get('group')
+    if group == 'None':
+        group = None
     table_data = cache.get(slug+str(group))
     if table_data is None:
         users = User.objects.filter(groups__name=group) if group else User.objects.all()

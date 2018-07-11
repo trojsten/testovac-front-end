@@ -6,7 +6,25 @@
 {% block title %}{% trans 'Results for' %} {{ contest.name }}{% endblock %}
 
 {% block page_header %}
-    <h1>{% trans 'Results for' %} {{ contest.name }}</h1>
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Results for' %} {{ contest.name }}</h1>
+        </li>
+
+        <li class="pull-right">
+            <div class="btn-group">
+                {% if group %}
+                    <a href="?group=None" class="btn btn-default btn-sm">
+                        {% trans 'Show all' %}
+                    </a>
+                {% else %}
+                    <a href="?group=ls_2018" class="btn btn-default btn-sm">
+                        {% trans 'Only ls 2018' %}
+                    </a>
+                {% endif %}
+            </div>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block page_content %}
