@@ -55,7 +55,6 @@ class AchievementTaskSet(models.Model):
 
             if solved_all:
                 achievement = Achievement.objects.get(slug=achievementTaskSet.slug)
-                print("AWARDINGGGGGGGGGGGGGGGGGGGGGGGGGGG")
                 achievement.award_to(user)
 
 

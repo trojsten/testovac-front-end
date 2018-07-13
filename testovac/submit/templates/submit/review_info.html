@@ -30,6 +30,9 @@
             {% if review.comment %}
                 <p>{{ review.comment|linebreaks }}</p>
             {% endif %}
+            {% if image %}
+                <img style="width: 100%" src="{{ image }}">
+            {% endif %}
         {% else %}
             <p>{% trans 'Not reviewed yet.' %}</p>
         {% endif %}

@@ -1,4 +1,6 @@
 import urlparse
+import os
+from glob import glob
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -11,6 +13,8 @@ from django.utils.html import format_html
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+
+from django.conf import settings
 
 from .constants import JudgeTestResult, ReviewResponse
 from .models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
@@ -86,6 +90,26 @@ def view_submit(request, submit_id):
     submit = get_object_or_404(Submit.objects.select_related('receiver'), pk=submit_id)
     user_has_admin_privileges = submit.receiver.has_admin_privileges(request.user)
 
+    def get_submit_picture(is_positive, submit_id):
+        if is_positive:
+            dirn = 'positive/'
+        else:
+            dirn = 'negative/'
+        files = map(os.path.basename, glob(os.path.join(settings.STATIC_ROOT,'gifs',dirn,'*')))
+        if files == []:
+            return None
+        files.sort()
+        numbers = list(filter(lambda n: n[1]<submit_id, enumerate(map(lambda n: int(n.split('.')[0]), files))))
+        picture_id = submit_id % len(numbers)
+        return reduce(urlparse.urljoin, ['/static/','gifs/', dirn,files[numbers[picture_id][0]]])
+
+    def get_image(review, submit_id):
+        if review.short_response=='OK':
+            return get_submit_picture(True, int(submit_id))
+        if review.score < 20:
+            return get_submit_picture(False, int(submit_id))
+        return None
+
     if submit.user != request.user and not user_has_admin_privileges:
         raise PermissionDenied()
 
@@ -94,6 +118,7 @@ def view_submit(request, submit_id):
     data = {
         'submit': submit,
         'review': review,
+        'image': get_image(review, submit_id),
         'user_has_admin_privileges': user_has_admin_privileges,
         'show_submitted_file': conf.get('show_submitted_file', False),
         'protocol_expected': conf.get('send_to_judge', False),
