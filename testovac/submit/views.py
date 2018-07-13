@@ -100,6 +100,8 @@ def view_submit(request, submit_id):
             return None
         files.sort()
         numbers = list(filter(lambda n: n[1]<submit_id, enumerate(map(lambda n: int(n.split('.')[0]), files))))
+        if numbers == []:
+            return None
         picture_id = submit_id % len(numbers)
         return reduce(urlparse.urljoin, ['/static/','gifs/', dirn,files[numbers[picture_id][0]]])
 
