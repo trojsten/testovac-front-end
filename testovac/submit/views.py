@@ -108,6 +108,8 @@ def view_submit(request, submit_id):
     def get_image(review, submit_id):
         if review.short_response=='OK':
             return get_submit_picture(True, int(submit_id))
+        if review.short_response=='Sent to judge':
+            return None
         if review.score < 20:
             return get_submit_picture(False, int(submit_id))
         return None
