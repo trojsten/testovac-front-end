@@ -13,6 +13,7 @@
 
         <li class="pull-right">
             <div class="btn-group">
+                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false">Zobraziť všetky úlohy</button>
                 {% if hide_finished %}
                     <a href="?hide_finished=False" class="btn btn-default btn-sm">
                         {% trans 'Show finished' %}
@@ -83,7 +84,7 @@
                         Zobraziť úlohy
                     </button>
                     
-                    <div class="collapse" id="{{ contest.slug }}-tasklist">
+                    <div class="collapse multi-collapse" id="{{ contest.slug }}-tasklist">
                         <div class="list-group" >
                             {% for task in contest.task_set.all %}
                                 {% if not task in completed_tasks %}
