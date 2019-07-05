@@ -79,16 +79,22 @@
                 {% endif %}
 
                 {% if user.is_staff or contest.has_started %}
-                    <div class="list-group">
-                        {% for task in contest.task_set.all %}
-                            {% if not task in completed_tasks %}
-                                <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
-                                    {{ task.number }}. {{task.name}}
-                                    <span class="pull-right">{% completed_status task user user_task_points %}</span>
-                                </a>
-                            {% endif %}
-                        {% endfor %}
-                        <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ contest.slug }}-tasklist" aria-expanded="false" aria-controls="{{ contest.slug }}-tasklist">
+                        Zobraziť úlohy
+                    </button>
+                    
+                    <div class="collapse" id="{{ contest.slug }}-tasklist">
+                        <div class="list-group" >
+                            {% for task in contest.task_set.all %}
+                                {% if not task in completed_tasks %}
+                                    <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
+                                        {{ task.number }}. {{task.name}}
+                                        <span class="pull-right">{% completed_status task user user_task_points %}</span>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
+                        </div>
                     </div>
                 {% endif %}
             {% endif %}
