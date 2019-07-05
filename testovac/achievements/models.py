@@ -17,7 +17,7 @@ class Achievement(models.Model):
                             help_text='Must be unique among all achievements, serves as part of URL.<br />'
                                       'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
-    description = models.CharField(max_length=512)
+    description = models.CharField(max_length=1024)
     user = models.ManyToManyField(User, related_name="achievements", through='AchievementToUser')
 
     def get_absolute_url(self):
