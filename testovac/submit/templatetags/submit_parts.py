@@ -55,6 +55,32 @@ def submit_list(receiver, user):
     return data
 
 
+@register.inclusion_tag('submit/parts/submit_list.html')
+def public_submit_list(receiver, user):
+    """
+    List of all public submits for specified receiver.
+    """
+
+    last_review_for_each_submit = Review.objects.filter(
+        submit__receiver=receiver, submit__is_public=True
+    ).order_by(
+        '-submit__pk', '-time', '-pk'
+    ).distinct(
+        'submit__pk'
+    ).select_related(
+        'submit'
+    )
+
+    data = {
+        'user_has_admin_privileges': receiver.has_admin_privileges(user),
+        'receiver': receiver,
+        'submits': [(review.submit, review) for review in last_review_for_each_submit],
+        'response': ReviewResponse,
+        'Submit': Submit,
+    }
+    return data
+
+
 @register.filter
 def verbose(obj, msg):
     """

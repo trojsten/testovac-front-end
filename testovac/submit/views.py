@@ -114,7 +114,7 @@ def view_submit(request, submit_id):
             return get_submit_picture(False, int(submit_id))
         return None
 
-    if submit.user != request.user and not user_has_admin_privileges:
+    if submit.user != request.user and not user_has_admin_privileges and not submit.is_public:
         raise PermissionDenied()
 
     conf = submit.receiver.configuration

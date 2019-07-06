@@ -76,7 +76,8 @@ class Submit(models.Model):
         (ACCEPTED, _('yes')),
     ]
     is_accepted = models.IntegerField(default=ACCEPTED, choices=IS_ACCEPTED_CHOICES)
-
+    is_public = models.BooleanField(default=False)
+    
     def dir_path(self):
         return os.path.join(submit_settings.SUBMIT_PATH, 'submits',
                             str(self.user.id), str(self.receiver.id), str(self.id))
