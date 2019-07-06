@@ -31,7 +31,7 @@
             <div class="well">
                 {% submit_form receiver task.get_absolute_url user _('Solution') %}
                 <p></p>
-                {% if user_task_points == task.max_points %}
+                {% if user_points == task.max_points %}
                 <h3>Vzorové riešenia:</h3>
                     {% if 'form' in receiver.configuration %}
                         {% public_submit_list receiver user %}

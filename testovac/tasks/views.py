@@ -63,11 +63,11 @@ def task_statement(request, task_slug):
     
     user_task_points = ResultsGenerator(
             User.objects.filter(pk=request.user.pk), (task, )).get_user_task_points()
-    user_task_points = user_task_points[request.user.pk][task.pk] or 0
     
     template_data = {
         'task': task,
         'user_task_points': user_task_points,
+        'user_points': user_task_points[request.user.pk][task.pk] or 0,
         'statement': import_string(settings.TASK_STATEMENTS_BACKEND)().render_statement(request, task),
     }
     return render(
