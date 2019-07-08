@@ -22,6 +22,7 @@ SUBMIT_EXTENSION_MAPPING_FOR_JUDGE = getattr(django_settings, 'SUBMIT_EXTENSION_
         ".java": ".java",
         ".zip": ".zip",
         ".rs": ".rs",
+        ".js": ".js",
     }
 )
 

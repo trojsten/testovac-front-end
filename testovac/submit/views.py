@@ -121,6 +121,7 @@ def view_submit(request, submit_id):
     review = submit.last_review()
     data = {
         'submit': submit,
+        'task_id': str(submit.receiver).split()[0],
         'review': review,
         'image': get_image(review, submit_id),
         'user_has_admin_privileges': user_has_admin_privileges,
