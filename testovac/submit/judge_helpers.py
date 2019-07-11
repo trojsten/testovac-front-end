@@ -31,7 +31,7 @@ def send_to_judge(review):
                 'inputs_folder_at_judge',
                 import_string(submit_settings.JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER)(review.submit.receiver)
             )
-            language = os.path.splitext(original_filename)[1]
+            language = os.path.splitext(original_filename)[1][1:]
 
 
             judge_client = JudgeClient(submit_settings.JUDGE_INTERFACE_IDENTITY, submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT)
