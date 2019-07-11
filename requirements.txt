@@ -18,3 +18,4 @@ django-sortedm2m
 django-autoslug==1.9.3
 django-taggit==0.20.1
 sqlparse==0.2.4
+trojsten-judge-client==1.0.1

@@ -11,6 +11,7 @@ from .constants import JudgeTestResult, ReviewResponse
 from . import settings as submit_settings
 from .submit_helpers import write_chunks_to_file
 from .models import Review
+from judge_client.client import JudgeClient, JudgeConnectionError
 
 
 class JudgeConnectionError(Exception):
@@ -18,15 +19,26 @@ class JudgeConnectionError(Exception):
 
 
 def send_to_judge(review):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.connect((submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT))
-        with open(review.raw_path(), 'rb') as raw:
-            sock.send(raw.read())
+        with open(review.submit.file_path(), 'rb') as submitted_file:
+            submitted_source = submitted_file.read()
+        
+            submit_id = str(review.id)
+            user_id = '%s-%s' % (submit_settings.JUDGE_INTERFACE_IDENTITY, str(review.submit.user.id))
+
+            original_filename = unidecode(review.submit.filename)
+            task_id = review.submit.receiver.configuration.get(
+                'inputs_folder_at_judge',
+                import_string(submit_settings.JUDGE_DEFAULT_INPUTS_FOLDER_FOR_RECEIVER)(review.submit.receiver)
+            )
+            language = os.path.splitext(original_filename)[1]
+
+
+            judge_client = JudgeClient(submit_settings.JUDGE_INTERFACE_IDENTITY, submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT)
+            judge_client.submit(submit_id, user_id, task_id, submitted_source, language, 0)
+
     except:
         raise JudgeConnectionError
-    finally:
-        sock.close()
 
 
 def create_review_and_send_to_judge(submit):
