@@ -50,7 +50,7 @@ class ViewOnSiteMixin(object):
 class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     inlines = [ReviewInline]
     list_display = ('submit_id', 'view_on_site_list_display', 'receiver', 'user', 'status', 'score', 'time',
-                    'is_accepted', 'is_public')
+                    'is_accepted', 'is_public', 'filename')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
 
     def submit_id(self, submit):
