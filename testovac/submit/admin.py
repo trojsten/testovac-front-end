@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from testovac.submit.models import SubmitReceiverTemplate, SubmitReceiver, Submit, Review
+from testovac.tasks.models import Task
 
 
 class SubmitReceiverTemplateAdmin(admin.ModelAdmin):
@@ -28,8 +29,13 @@ class SubmitReceiverForm(forms.ModelForm):
         }
 
 
+class TaskInline(admin.TabularInline):
+    model = Task.submit_receivers.through
+
+
 class SubmitReceiverAdmin(admin.ModelAdmin):
     form = SubmitReceiverForm
+    inlines = [TaskInline]
 
 
 class ReviewInline(admin.StackedInline):
