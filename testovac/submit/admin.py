@@ -69,6 +69,15 @@ class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     def score(self, submit):
         review = submit.last_review()
         return review.display_score() if review is not None else ''
+    
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super(SubmitAdmin, self).get_search_results(request, queryset, search_term)
+        try:
+            search_term_as_receiver_ids = Task.objects.filter(slug__icontains=search_term).values_list('submit_receivers__id', flat=True)
+            queryset |= self.model.objects.filter(receiver_id__in=search_term_as_receiver_ids)
+        except:
+            pass
+        return queryset, use_distinct
 
 
 class ReviewAdmin(admin.ModelAdmin):
