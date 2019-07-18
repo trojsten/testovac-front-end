@@ -72,7 +72,7 @@ def public_submit_list(receiver, user):
     )
 
     data = {
-        'user_has_admin_privileges': receiver.has_admin_privileges(user),
+        'user_has_admin_privileges': False,
         'receiver': receiver,
         'submits': [(review.submit, review) for review in last_review_for_each_submit],
         'response': ReviewResponse,
