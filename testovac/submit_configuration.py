@@ -21,11 +21,11 @@ class PostSubmitFormCustomized(PostSubmitForm):
         if not submit.receiver.task_set.all():
             return Submit.NOT_ACCEPTED
         task = submit.receiver.task_set.all()[0]
-
-        if task.contest.has_finished():
-            return Submit.NOT_ACCEPTED
-        else:
-            return Submit.ACCEPTED
+        #TODO pari do pocitania vysledkovky
+        #if task.contest.has_finished():
+            #return Submit.NOT_ACCEPTED
+        #else:
+        return Submit.ACCEPTED
 
     def get_success_message(self, submit):
         message = super(PostSubmitFormCustomized, self).get_success_message(submit)
@@ -40,10 +40,13 @@ class PostSubmitFormCustomized(PostSubmitForm):
 
 
 def can_post_submit(receiver, user):
-    possible_tasks = receiver.task_set.all().prefetch_related('contest')
+    possible_tasks = receiver.task_set.all().prefetch_related('contests')
     if not possible_tasks:
         return False
-    return possible_tasks[0].contest.tasks_visible_for_user(user)
+    for contest in possible_tasks[0].contests.all():
+        if contest.tasks_visible_for_user(user):
+            return True
+    return False
 
 
 def display_submit_receiver_name(receiver):

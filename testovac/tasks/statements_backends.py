@@ -17,12 +17,17 @@ class StatementsBackend(object):
 
 class StatementsPDFBackend(StatementsBackend):
     def search_paths(self, task):
-        return [
-            os.path.join(settings.TASK_STATEMENTS_PATH, task.contest.slug, task.slug + '.pdf'),
-            os.path.join(settings.TASK_STATEMENTS_PATH, task.contest.slug, task.slug + '-*.pdf'),
+        paths= [
             os.path.join(settings.TASK_STATEMENTS_PATH, task.slug + '.pdf'),
             os.path.join(settings.TASK_STATEMENTS_PATH, task.slug + '-*.pdf'),
         ]
+        for contest in task.contests.all():
+            paths.extend([
+                os.path.join(settings.TASK_STATEMENTS_PATH, contest.slug, task.slug + '.pdf'),
+                os.path.join(settings.TASK_STATEMENTS_PATH, contest.slug, task.slug + '-*.pdf'),
+            ])
+            
+        return paths
 
     def find_statement(self, task):
         for pattern in self.search_paths(task):

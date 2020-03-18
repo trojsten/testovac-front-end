@@ -89,7 +89,7 @@
                             {% for task in contest.task_set.all %}
                                 {% if not task in completed_tasks %}
                                     <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
-                                        {{ task.number }}. {{task.name}}
+                                        {{ forloop.counter }}. {{task.name}}
                                         <span class="pull-right">{% completed_status task user user_task_points %}</span>
                                     </a>
                                 {% endif %}

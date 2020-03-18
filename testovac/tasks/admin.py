@@ -35,7 +35,7 @@ class TaskInline(admin.TabularInline):
 class ContestAdmin(admin.ModelAdmin):
     list_display = ('slug', 'name', 'start_time', 'end_time', 'visible')
     list_editable = ('visible', )
-    inlines = [TaskInline]
+    #inlines = [TaskInline]
 
     def save_formset(self, request, form, formset, change):
         """
@@ -57,7 +57,7 @@ class ContestAdmin(admin.ModelAdmin):
 
 class ReceiverInline(admin.TabularInline):
     model = Task.submit_receivers.through
-    extra = 0
+    extra = 1
 
     readonly_fields = ('get_receiver_configuration',)
 
@@ -68,8 +68,8 @@ class ReceiverInline(admin.TabularInline):
 
 class TaskAdmin(admin.ModelAdmin):
     exclude = ('submit_receivers', )
-    list_display = ('slug', 'name', 'number', 'contest', 'max_points')
-    list_filter = ('contest', )
+    list_display = ('slug', 'name', 'number', 'max_points')
+    list_filter = ('contests', )
     search_fields = ('name', 'slug')
     inlines = [
         ReceiverInline,

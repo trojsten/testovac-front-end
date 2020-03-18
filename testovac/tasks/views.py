@@ -22,14 +22,14 @@ def contest_list(request):
         receiver_lists_as_strings.append(receivers_string)
 
     user_task_points = ResultsGenerator(
-            User.objects.filter(pk=request.user.pk), Task.objects.filter(contest__in=visible_contests)
+            User.objects.filter(pk=request.user.pk), Task.objects.filter(contests__in=visible_contests)
         ).get_user_task_points()
 
     completed_tasks=[]
     completed_contests=[]
     hide_finished = is_true(request.GET.get('hide_finished', False))
     if hide_finished:
-        for task in Task.objects.filter(contest__in=visible_contests):
+        for task in Task.objects.filter(contests__in=visible_contests):
             if user_task_points[request.user.pk][task.pk] == task.max_points:
                 completed_tasks.append(task)
 
@@ -58,7 +58,11 @@ def contest_list(request):
 
 def task_statement(request, task_slug):
     task = get_object_or_404(Task, pk=task_slug)
-    if not task.contest.tasks_visible_for_user(request.user):
+    is_visible=False
+    for contest in task.contests.all():
+        if contest.tasks_visible_for_user(request.user):
+            is_visible=True
+    if not is_visible:
         raise Http404
     
     user_task_points = ResultsGenerator(
@@ -79,6 +83,10 @@ def task_statement(request, task_slug):
 
 def task_statement_download(request, task_slug):
     task = get_object_or_404(Task, pk=task_slug)
-    if not task.contest.tasks_visible_for_user(request.user):
+    is_visible=False
+    for contest in task.contests.all():
+        if contest.tasks_visible_for_user(request.user):
+            is_visible=True
+    if not is_visible:
         raise Http404
     return import_string(settings.TASK_STATEMENTS_BACKEND)().download_statement(request, task)

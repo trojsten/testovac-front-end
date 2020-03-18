@@ -24,6 +24,7 @@ class Contest(models.Model):
     start_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     end_time = models.DateTimeField(default=default_contest_start_end_time, blank=True, null=True)
     visible = models.BooleanField(default=False)
+    task_set = SortedManyToManyField('Task', related_name='contests')
 
     def has_started(self):
         return self.start_time is None or timezone.now() > self.start_time
@@ -73,7 +74,6 @@ class Task(models.Model):
                                       'By default, task.slug is also used as a name of inputs folder at judge.<br />'
                                       'Must only contain characters "a-zA-Z0-9_-".')
     name = models.CharField(max_length=128)
-    contest = models.ForeignKey(Contest)
     number = models.IntegerField()
     max_points = models.IntegerField()
     submit_receivers = models.ManyToManyField(SubmitReceiver)
