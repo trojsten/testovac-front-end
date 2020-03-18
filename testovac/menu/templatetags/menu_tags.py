@@ -21,6 +21,11 @@ def static_menu_items(request):
             'link': reverse('contest_list'),
         },
         {
+            'url_regex': r'^/results',
+            'text': _('Results'),
+            'link': "%s?group=osp" % reverse('results_index'),
+        },
+        {
             'url_regex': r'^/achievements',
             'text': _('Achievements'),
             'link': reverse('achievement_overview'),
