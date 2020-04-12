@@ -19,7 +19,7 @@ urlpatterns = [
     # This the url path for this command is currently deactivated.
     # Also the button at submit_list template is hidden to prevent misclicks that could cause a judge overflow.
     # TODO: Implement pop-up / confirmation page for resubmit approval
-    #url(r'^commands/rejudge/receiver/(?P<receiver_id>\d+)/$', rejudge_receiver_submits, name='rejudge_receiver_submits'),
+    url(r'^commands/rejudge/receiver/(?P<receiver_id>\d+)/$', rejudge_receiver_submits, name='rejudge_receiver_submits'),
 
     url(r'^ajax/get_receiver_templates/', get_receiver_templates),
 ]

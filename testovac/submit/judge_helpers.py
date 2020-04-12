@@ -18,7 +18,7 @@ class JudgeConnectionError(Exception):
     pass
 
 
-def send_to_judge(review):
+def send_to_judge(review, priority=0):
     try:
         with open(review.submit.file_path(), 'rb') as submitted_file:
             submitted_source = submitted_file.read()
@@ -35,18 +35,18 @@ def send_to_judge(review):
 
 
             judge_client = JudgeClient(submit_settings.JUDGE_INTERFACE_IDENTITY, submit_settings.JUDGE_ADDRESS, submit_settings.JUDGE_PORT)
-            judge_client.submit(submit_id, user_id, task_id, submitted_source, language, 0)
+            judge_client.submit(submit_id, user_id, task_id, submitted_source, language, priority)
 
     except:
         raise JudgeConnectionError
 
 
-def create_review_and_send_to_judge(submit):
+def create_review_and_send_to_judge(submit, priority=0):
     review = Review(submit=submit, score=0, short_response=ReviewResponse.SENDING_TO_JUDGE)
     review.save()
     prepare_raw_file(review)
     try:
-        send_to_judge(review)
+        send_to_judge(review, priority)
         review.short_response = ReviewResponse.SENT_TO_JUDGE
     except JudgeConnectionError:
         review.short_response = ReviewResponse.JUDGE_UNAVAILABLE

@@ -18,7 +18,7 @@ def rejudge_submit(request, submit_id):
         raise Http404
 
     try:
-        create_review_and_send_to_judge(submit)
+        create_review_and_send_to_judge(submit,priority=-1)
         messages.add_message(request, messages.SUCCESS, _('Resubmit successful.'))
     except JudgeConnectionError:
         messages.add_message(request, messages.ERROR, _('Resubmit not successful. Judge unavailable.'))
@@ -45,7 +45,7 @@ def rejudge_receiver_submits(request, receiver_id):
     failed_submits = []
     for submit in submits:
         try:
-            create_review_and_send_to_judge(submit)
+            create_review_and_send_to_judge(submit,priority=-1)
         except:
             failed_submits.append(submit)
 
