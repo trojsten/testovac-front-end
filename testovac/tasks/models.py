@@ -77,7 +77,7 @@ class Task(models.Model):
     number = models.IntegerField()
     max_points = models.IntegerField()
     submit_receivers = models.ManyToManyField(SubmitReceiver)
-
+    show_details = models.BooleanField(default=False)
     objects = TaskManager()
 
     def get_absolute_url(self):

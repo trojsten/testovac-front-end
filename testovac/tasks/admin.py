@@ -68,7 +68,8 @@ class ReceiverInline(admin.TabularInline):
 
 class TaskAdmin(admin.ModelAdmin):
     exclude = ('submit_receivers', )
-    list_display = ('slug', 'name', 'number', 'max_points')
+    list_display = ('slug', 'name', 'number', 'max_points', 'show_details')
+    list_editable = ('show_details',)
     list_filter = ('contests', )
     search_fields = ('name', 'slug')
     inlines = [

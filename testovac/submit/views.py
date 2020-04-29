@@ -22,6 +22,8 @@ from .forms import FileSubmitForm
 from .submit_helpers import create_submit, write_chunks_to_file, send_file
 from .judge_helpers import create_review_and_send_to_judge, parse_protocol, JudgeConnectionError
 
+from testovac.tasks.models import Task
+
 
 class PostSubmitForm(View):
     login_required = True
@@ -134,7 +136,7 @@ def view_submit(request, submit_id):
             data['submitted_file'] = submitted_file.read().decode('utf-8', 'replace')
 
     if data['protocol_expected'] and review and review.protocol_exists():
-        force_show_details = conf.get('show_all_details', False) or user_has_admin_privileges
+        force_show_details = conf.get('show_all_details', False) or user_has_admin_privileges or Task.objects.get(pk=str(submit.receiver).split()[0]).show_details
         data['protocol'] = parse_protocol(review.protocol_path(), force_show_details)
         data['result'] = JudgeTestResult
 
