@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0016_auto_20200318_1506'),
+        ("tasks", "0016_auto_20200318_1506"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='show_details',
+            model_name="task",
+            name="show_details",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -8,12 +8,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0013_auto_20200318_1500'),
+        ("tasks", "0013_auto_20200318_1500"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='task',
-            name='contests',
-        ),
+        migrations.RemoveField(model_name="task", name="contests",),
     ]

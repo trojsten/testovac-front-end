@@ -2,13 +2,13 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
+from django.utils.translation import ugettext_lazy as _
 
+from testovac.results.generator import ResultsGenerator, display_points
 from testovac.submit.defaults import submit_receiver_type
 from testovac.submit.models import Submit
 from testovac.submit.views import PostSubmitForm
-from testovac.results.generator import ResultsGenerator, display_points
 
 
 class PostSubmitFormCustomized(PostSubmitForm):
@@ -21,10 +21,10 @@ class PostSubmitFormCustomized(PostSubmitForm):
         if not submit.receiver.task_set.all():
             return Submit.NOT_ACCEPTED
         task = submit.receiver.task_set.all()[0]
-        #TODO pari do pocitania vysledkovky
-        #if task.contest.has_finished():
-            #return Submit.NOT_ACCEPTED
-        #else:
+        # TODO pari do pocitania vysledkovky
+        # if task.contest.has_finished():
+        # return Submit.NOT_ACCEPTED
+        # else:
         return Submit.ACCEPTED
 
     def get_success_message(self, submit):
@@ -33,14 +33,16 @@ class PostSubmitFormCustomized(PostSubmitForm):
             return message
         else:
             return format_html(
-                u'{message}<br />{comment}',
+                u"{message}<br />{comment}",
                 message=message,
-                comment=_("Contest has already finished, this submit won't affect the results.")
+                comment=_(
+                    "Contest has already finished, this submit won't affect the results."
+                ),
             )
 
 
 def can_post_submit(receiver, user):
-    possible_tasks = receiver.task_set.all().prefetch_related('contests')
+    possible_tasks = receiver.task_set.all().prefetch_related("contests")
     if not possible_tasks:
         return False
     for contest in possible_tasks[0].contests.all():
@@ -54,12 +56,14 @@ def display_submit_receiver_name(receiver):
 
     possible_tasks = receiver.task_set.all()
     if not possible_tasks:
-        return 'no-task {} ({})'.format(receiver.id, type)
-    return '{} ({})'.format(possible_tasks[0].slug, type)
+        return "no-task {} ({})".format(receiver.id, type)
+    return "{} ({})".format(possible_tasks[0].slug, type)
 
 
 def display_score(review):
-    possible_tasks = review.submit.receiver.task_set.all().prefetch_related('submit_receivers')
+    possible_tasks = review.submit.receiver.task_set.all().prefetch_related(
+        "submit_receivers"
+    )
     if not possible_tasks:
         return 0
     task = possible_tasks[0]
@@ -72,6 +76,6 @@ def display_score(review):
 
 def default_inputs_folder_at_judge(receiver):
     if not receiver.task_set.all():
-        return '{}-{}'.format(settings.JUDGE_INTERFACE_IDENTITY, receiver.id)
+        return "{}-{}".format(settings.JUDGE_INTERFACE_IDENTITY, receiver.id)
     task = receiver.task_set.all()[0]
     return task.slug

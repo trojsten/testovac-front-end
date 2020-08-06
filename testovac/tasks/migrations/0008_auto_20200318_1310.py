@@ -10,17 +10,16 @@ def make_many_contests(apps, schema_editor):
         Adds the Contest object in Task to the
         many-to-many relationship in Contests
     """
-    Task = apps.get_model('tasks', 'Task')
+    Task = apps.get_model("tasks", "Task")
 
     for task in Task.objects.all():
         task.contests.add(task.contest)
 
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0007_auto_20200318_1310'),
+        ("tasks", "0007_auto_20200318_1310"),
     ]
 
     operations = [

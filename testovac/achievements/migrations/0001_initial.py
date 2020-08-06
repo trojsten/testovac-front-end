@@ -3,10 +3,11 @@
 from __future__ import unicode_literals
 
 import datetime
-from django.conf import settings
-from django.db import migrations, models
+
 import django.db.models.deletion
 import sortedm2m.fields
+from django.conf import settings
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -15,39 +16,88 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('tasks', '0006_auto_20180705_1333'),
+        ("tasks", "0006_auto_20180705_1333"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Achievement',
+            name="Achievement",
             fields=[
-                ('slug', models.SlugField(help_text='Must be unique among all achievements, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=128)),
-                ('description', models.CharField(max_length=512)),
+                (
+                    "slug",
+                    models.SlugField(
+                        help_text='Must be unique among all achievements, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".',
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=128)),
+                ("description", models.CharField(max_length=512)),
             ],
         ),
         migrations.CreateModel(
-            name='AchievementTaskSet',
+            name="AchievementTaskSet",
             fields=[
-                ('slug', models.SlugField(help_text='Must be unique among all achievement task sets, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=128)),
-                ('achievement', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='achievements.Achievement')),
-                ('tasks', sortedm2m.fields.SortedManyToManyField(help_text=None, to='tasks.Task')),
+                (
+                    "slug",
+                    models.SlugField(
+                        help_text='Must be unique among all achievement task sets, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".',
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=128)),
+                (
+                    "achievement",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="achievements.Achievement",
+                    ),
+                ),
+                (
+                    "tasks",
+                    sortedm2m.fields.SortedManyToManyField(
+                        help_text=None, to="tasks.Task"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='AchievementToUser',
+            name="AchievementToUser",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(default=datetime.datetime.now)),
-                ('achievement', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='achievements.Achievement')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(default=datetime.datetime.now)),
+                (
+                    "achievement",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="achievements.Achievement",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='achievement',
-            name='user',
-            field=models.ManyToManyField(related_name='achievements', through='achievements.AchievementToUser', to=settings.AUTH_USER_MODEL),
+            model_name="achievement",
+            name="user",
+            field=models.ManyToManyField(
+                related_name="achievements",
+                through="achievements.AchievementToUser",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

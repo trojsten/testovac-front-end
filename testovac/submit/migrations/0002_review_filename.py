@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('submit', '0001_initial'),
+        ("submit", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='review',
-            name='filename',
+            model_name="review",
+            name="filename",
             field=models.CharField(blank=True, max_length=128),
         ),
     ]

@@ -8,13 +8,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0015_auto_20200318_1506'),
+        ("tasks", "0015_auto_20200318_1506"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='contest',
-            old_name='task_set_new',
-            new_name='task_set',
+            model_name="contest", old_name="task_set_new", new_name="task_set",
         ),
     ]

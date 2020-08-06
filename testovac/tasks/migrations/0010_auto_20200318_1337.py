@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0009_remove_task_contest'),
+        ("tasks", "0009_remove_task_contest"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='task',
-            name='contests',
-            field=models.ManyToManyField(related_name='tasks', to='tasks.Contest'),
+            model_name="task",
+            name="contests",
+            field=models.ManyToManyField(related_name="tasks", to="tasks.Contest"),
         ),
     ]

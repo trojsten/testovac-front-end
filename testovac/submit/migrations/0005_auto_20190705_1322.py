@@ -8,13 +8,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('submit', '0004_submit_is_pulic'),
+        ("submit", "0004_submit_is_pulic"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='submit',
-            old_name='is_pulic',
-            new_name='is_public',
+            model_name="submit", old_name="is_pulic", new_name="is_public",
         ),
     ]

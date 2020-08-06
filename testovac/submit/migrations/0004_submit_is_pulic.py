@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('submit', '0003_auto_20180705_1333'),
+        ("submit", "0003_auto_20180705_1333"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='submit',
-            name='is_pulic',
+            model_name="submit",
+            name="is_pulic",
             field=models.BooleanField(default=False),
         ),
     ]

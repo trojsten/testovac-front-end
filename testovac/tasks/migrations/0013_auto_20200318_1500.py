@@ -4,18 +4,19 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
+
 def make_task_contests(apps, schema_editor):
-    Contest = apps.get_model('tasks', 'Contest')
+    Contest = apps.get_model("tasks", "Contest")
 
     for contest in Contest.objects.all():
-        for task in contest.task_set.order_by('number'):
+        for task in contest.task_set.order_by("number"):
             contest.task_set_new.add(task)
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0012_contest_task_set_new'),
+        ("tasks", "0012_contest_task_set_new"),
     ]
 
     operations = [

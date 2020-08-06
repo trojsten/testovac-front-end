@@ -8,13 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('results', '0004_customresultstable_contests'),
+        ("results", "0004_customresultstable_contests"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customresultstable',
-            name='slug',
-            field=models.SlugField(help_text='Serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False),
+            model_name="customresultstable",
+            name="slug",
+            field=models.SlugField(
+                help_text='Serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".',
+                primary_key=True,
+                serialize=False,
+            ),
         ),
     ]

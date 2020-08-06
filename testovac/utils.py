@@ -4,4 +4,4 @@ def is_true(value):
     """
     if isinstance(value, bool):
         return value
-    return bool(value) and value.lower() not in ('false', '0')
+    return bool(value) and value.lower() not in ("false", "0")
