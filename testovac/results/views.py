@@ -6,7 +6,7 @@ from testovac.results.models import CustomResultsTable
 from testovac.tasks.models import Competition, Contest
 
 
-def results_index(request):
+def results_index(request, group=None):
     custom_tables = CustomResultsTable.objects.order_by("number").prefetch_related(
         "contests__task_set"
     )
@@ -27,9 +27,6 @@ def results_index(request):
     visible_contests = [
         contest for contest in contests if contest.tasks_visible_for_user(request.user)
     ]
-    group = request.GET.get("group")
-    if group == "None":
-        group = None
 
     return render(
         request,
@@ -42,13 +39,10 @@ def results_index(request):
     )
 
 
-def contest_results(request, contest_slug):
+def contest_results(request, contest_slug, group=None):
     contest = get_object_or_404(Contest, pk=contest_slug)
     if not contest.tasks_visible_for_user(request.user):
         raise Http404
-    group = request.GET.get("group")
-    if group == "None":
-        group = None
 
     return render(
         request,
@@ -58,19 +52,4 @@ def contest_results(request, contest_slug):
             "task_list": [task for task in contest.task_set.all()],
             "group": group,
         },
-    )
-
-
-def custom_results(request, results_table_slug):
-    results_table = get_object_or_404(CustomResultsTable, pk=results_table_slug)
-    task_list = results_table.task_list(request.user)
-
-    group = request.GET.get("group")
-    if group == "None":
-        group = None
-
-    return render(
-        request,
-        "results/custom_results_table.html",
-        {"task_list": task_list, "table_object": results_table, "group": group,},
     )

@@ -4,14 +4,17 @@ from testovac.achievements.models import Achievement
 
 
 def overview(request):
-    achievements = Achievement.objects.all()
-    context = locals()
-    return render(request, "achievements/overview.html", context)
+    return render(
+        request,
+        "achievements/overview.html",
+        dict(achievements=Achievement.objects.all()),
+    )
 
 
 def detail(request, slug):
     achievement = get_object_or_404(Achievement, slug=slug)
-    users = achievement.user.all()
-
-    context = locals()
-    return render(request, "achievements/detail.html", context)
+    return render(
+        request,
+        "achievements/detail.html",
+        dict(achievement=achievement, users=achievement.user.all()),
+    )

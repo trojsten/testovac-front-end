@@ -16,18 +16,16 @@ def points_format(points):
 
 
 @register.inclusion_tag("results/parts/results_table.html", takes_context=True)
-def results_table(context, slug, task_list):
+def results_table(context, slug, task_list, group):
     request = context["request"]
     max_sum = sum(task.max_points for task in task_list)
 
-    group = request.GET.get("group")
-    if group == "None":
-        group = None
-    table_data = cache.get(slug + str(group))
+    cache_key = "%s-%s" % (slug, str(group))
+    table_data = cache.get(cache_key)
     if table_data is None:
         users = User.objects.filter(groups__name=group) if group else User.objects.all()
         table_data = ResultsGenerator(users, task_list).generate_result_table_context()
-        cache.set(slug + str(group), table_data)
+        cache.set(cache_key, table_data)
 
     return {
         "tasks": task_list,

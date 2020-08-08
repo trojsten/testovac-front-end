@@ -32,9 +32,7 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
         )
         achievement = Achievement.objects.get(slug=self.slug)
         task_list = AchievementTaskSet.objects.get(slug=self.slug).tasks.all()
-        for task in task_list:
-            achievement.description += task.name + ", "
-        achievement.description = achievement.description[:-2]
+        achievement.description = ", ".join(task.name for task in task_list)
         achievement.save()
         for user in User.objects.all():
             solved_all = True

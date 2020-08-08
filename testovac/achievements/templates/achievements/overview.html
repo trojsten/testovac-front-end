@@ -1,7 +1,6 @@
 {% extends 'testovac/base.html' %}
 
 {% load i18n %}
-{% load achievements_tags %}
 {% load humanize %}
 
 {% block title %}{% trans 'Achievements' %}{% endblock %}
@@ -29,13 +28,15 @@
     {% for achievement in achievements %}
     <tr class="{% cycle 'highlighted' '' %}">
         <td class="checkmarks col-xs-1">
-            {% if achievement|is_in:request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %} 
+            {% if achievement in request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %} 
             <div class="pull-right">
                 {{ achievement.user.count|intcomma }} × 
             </div>
         </td>
         <td class="achievement col-xs-4">
-            {% include "achievements/achievement.html" %}
+            <a href="{{ achievement.get_absolute_url }}" title="{{ achievement.name }}">
+                <span>●</span> {{ achievement.name }}
+            </a>
         </td>
         <td class="achievement_description col-xs-7">{{ achievement.description }}</td>
     </tr>

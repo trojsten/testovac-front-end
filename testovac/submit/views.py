@@ -111,34 +111,24 @@ def view_submit(request, submit_id):
             dirn = "positive/"
         else:
             dirn = "negative/"
-        files = map(
-            os.path.basename,
-            glob(os.path.join(settings.STATIC_ROOT, "gifs", dirn, "*")),
-        )
+        files = [
+            os.path.basename(x)
+            for x in glob(os.path.join(settings.STATIC_ROOT, "gifs", dirn, "*"))
+        ]
         if files == []:
             return None
         files.sort()
-        numbers = list(
-            filter(
-                lambda n: n[1] < submit_id,
-                enumerate(map(lambda n: int(n.split(".")[0]), files)),
-            )
-        )
-        if numbers == []:
-            return None
-        picture_id = submit_id % len(numbers)
-        return reduce(
-            urllib.parse.urljoin,
-            ["/static/", "gifs/", dirn, files[numbers[picture_id][0]]],
-        )
+
+        picture_id = submit_id % len(files)
+        return "/static/gifs/%s%s" % (dirn, files[picture_id])
 
     def get_image(review, submit_id):
         if review.short_response == "OK":
-            return get_submit_picture(True, int(submit_id))
+            return get_submit_picture(True, submit_id)
         if review.short_response == "Sent to judge":
             return None
         if review.score < 20:
-            return get_submit_picture(False, int(submit_id))
+            return get_submit_picture(False, submit_id)
         return None
 
     if (
@@ -154,7 +144,7 @@ def view_submit(request, submit_id):
         "submit": submit,
         "task_id": str(submit.receiver).split()[0],
         "review": review,
-        "image": get_image(review, submit_id),
+        "image": get_image(review, int(submit_id)),
         "user_has_admin_privileges": user_has_admin_privileges,
         "show_submitted_file": conf.get("show_submitted_file", False),
         "protocol_expected": conf.get("send_to_judge", False),
@@ -162,7 +152,7 @@ def view_submit(request, submit_id):
 
     if data["show_submitted_file"]:
         with open(submit.file_path(), "r") as submitted_file:
-            data["submitted_file"] = submitted_file.read().decode("utf-8", "replace")
+            data["submitted_file"] = submitted_file.read()
 
     if data["protocol_expected"] and review and review.protocol_exists():
         force_show_details = (
