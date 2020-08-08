@@ -28,17 +28,12 @@ class SubmitReceiverForm(forms.ModelForm):
 
     class Meta:
         model = SubmitReceiver
-        fields = ("receiver_template", "configuration")
+        fields = ("receiver_template", "configuration", "task")
         widgets = {"configuration": forms.Textarea(attrs={"rows": 15, "cols": 40})}
-
-
-class TaskInline(admin.TabularInline):
-    model = Task.submit_receivers.through
 
 
 class SubmitReceiverAdmin(admin.ModelAdmin):
     form = SubmitReceiverForm
-    inlines = [TaskInline]
 
 
 class ReviewInline(admin.StackedInline):

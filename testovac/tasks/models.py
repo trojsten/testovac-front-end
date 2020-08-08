@@ -78,7 +78,6 @@ class Task(models.Model):
     name = models.CharField(max_length=128)
     number = models.IntegerField()
     max_points = models.IntegerField()
-    submit_receivers = models.ManyToManyField(SubmitReceiver)
     show_details = models.BooleanField(default=False)
     objects = TaskManager()
 

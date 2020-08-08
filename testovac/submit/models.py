@@ -42,6 +42,13 @@ class SubmitReceiver(SubmitConfig):
     Submit receiver manages one type of submits belonging to 1 Submit Receiver Group.
     """
 
+    task = models.ForeignKey(
+        "tasks.Task",
+        on_delete=models.CASCADE,
+        related_name="submit_receivers",
+        null=True,
+    )
+
     class Meta:
         verbose_name = "submit receiver"
         verbose_name_plural = "submit receivers"

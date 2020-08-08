@@ -18,9 +18,8 @@ class PostSubmitFormCustomized(PostSubmitForm):
         Submit.is_accepted can be modified manually however.
         """
 
-        if not submit.receiver.task_set.all():
+        if not submit.receiver.task:
             return Submit.NOT_ACCEPTED
-        task = submit.receiver.task_set.all()[0]
         # TODO pari do pocitania vysledkovky
         # if task.contest.has_finished():
         # return Submit.NOT_ACCEPTED
@@ -42,10 +41,10 @@ class PostSubmitFormCustomized(PostSubmitForm):
 
 
 def can_post_submit(receiver, user):
-    possible_tasks = receiver.task_set.all().prefetch_related("contests")
-    if not possible_tasks:
+    task = receiver.task
+    if task:
         return False
-    for contest in possible_tasks[0].contests.all():
+    for contest in task.contests.all():
         if contest.tasks_visible_for_user(user):
             return True
     return False
@@ -54,19 +53,16 @@ def can_post_submit(receiver, user):
 def display_submit_receiver_name(receiver):
     type = submit_receiver_type(receiver)
 
-    possible_tasks = receiver.task_set.all()
-    if not possible_tasks:
+    task = receiver.task
+    if not task:
         return "no-task {} ({})".format(receiver.id, type)
-    return "{} ({})".format(possible_tasks[0].slug, type)
+    return "{} ({})".format(task.slug, type)
 
 
 def display_score(review):
-    possible_tasks = review.submit.receiver.task_set.all().prefetch_related(
-        "submit_receivers"
-    )
-    if not possible_tasks:
+    task = review.submit.receiver.task
+    if not task:
         return 0
-    task = possible_tasks[0]
 
     scores = defaultdict(lambda: None)
     scores[review.submit.receiver.pk] = review.score
@@ -75,7 +71,6 @@ def display_score(review):
 
 
 def default_inputs_folder_at_judge(receiver):
-    if not receiver.task_set.all():
+    if not receiver.task:
         return "{}-{}".format(settings.JUDGE_INTERFACE_IDENTITY, receiver.id)
-    task = receiver.task_set.all()[0]
-    return task.slug
+    return receiver.task.slug

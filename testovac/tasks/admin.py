@@ -63,7 +63,7 @@ class ContestAdmin(admin.ModelAdmin):
 
 
 class ReceiverInline(admin.TabularInline):
-    model = Task.submit_receivers.through
+    model = SubmitReceiver
     extra = 1
 
     readonly_fields = ("get_receiver_configuration",)
