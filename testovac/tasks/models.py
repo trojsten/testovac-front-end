@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
 
-from testovac.submit.models import SubmitReceiver
 from testovac.tasks.utils import default_contest_start_end_time
 
 

@@ -40,7 +40,7 @@ def contest_list(request):
         for contest in visible_contests:
             completed = True
             for task in contest.task_set.all():
-                if not task in completed_tasks:
+                if task not in completed_tasks:
                     completed = False
             if completed:
                 completed_contests.append(contest)

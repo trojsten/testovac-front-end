@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
 
-from testovac.tasks.models import Contest, Task
+from testovac.tasks.models import Contest
 
 
 class CustomResultsTable(models.Model):

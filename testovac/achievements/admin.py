@@ -1,11 +1,7 @@
-from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
 
 from testovac.achievements.models import Achievement, AchievementTaskSet
-from testovac.submit.models import Review
-from testovac.tasks.models import Task
 
 
 class AchievementAdmin(admin.ModelAdmin):
@@ -38,17 +34,17 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
         for user in User.objects.raw(
             """
 SELECT "auth_user"."id"
-FROM "auth_user" 
+FROM "auth_user"
 WHERE (
-    SELECT COUNT(DISTINCT V1."task_id") 
-    FROM "submit_submit" V0 
-    INNER JOIN "submit_submitreceiver" V1 ON (V0."receiver_id" = V1."id") 
+    SELECT COUNT(DISTINCT V1."task_id")
+    FROM "submit_submit" V0
+    INNER JOIN "submit_submitreceiver" V1 ON (V0."receiver_id" = V1."id")
     WHERE (V1."task_id" = ANY(%s)
-            AND V0."user_id" = "auth_user"."id" 
+            AND V0."user_id" = "auth_user"."id"
             AND (
-                SELECT U0."score" 
-                FROM "submit_review" U0 
-                WHERE U0."submit_id" = V0."id" 
+                SELECT U0."score"
+                FROM "submit_review" U0
+                WHERE U0."submit_id" = V0."id"
                 ORDER BY U0."time" DESC LIMIT 1) = 100.0
             )
     ) = %s

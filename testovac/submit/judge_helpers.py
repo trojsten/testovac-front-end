@@ -1,5 +1,4 @@
 import os
-import socket
 import time
 import xml.etree.ElementTree as ET
 from decimal import Decimal
@@ -12,10 +11,6 @@ from . import settings as submit_settings
 from .constants import JudgeTestResult, ReviewResponse
 from .models import Review
 from .submit_helpers import write_chunks_to_file
-
-
-class JudgeConnectionError(Exception):
-    pass
 
 
 def send_to_judge(review, priority=0):

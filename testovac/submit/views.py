@@ -1,5 +1,4 @@
 import os
-import urllib.parse
 from glob import glob
 
 from django.conf import settings
