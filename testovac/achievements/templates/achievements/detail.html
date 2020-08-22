@@ -28,7 +28,7 @@
 	<table class=" table users">
 		{% for u in users %}
             <tr>
-                <td class="col-xs-2"><a href='{{ u.get_absolute_url }}'>{{ u.username }}</a></td>
+                <td class="col-xs-2">{{ u.username }}</td>
                 <td class="col-xs-4">{{ u.first_name }} {{ u.last_name }}</td>
                 <td class="col-xs-6"></td>
 			</tr>

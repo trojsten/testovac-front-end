@@ -19,7 +19,6 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
 
         self.slug = obj.slug
-        # TODO if change, update achievement
         if not change:
             obj.achievement = Achievement.objects.create(
                 slug=obj.slug, name=obj.name, description=""
@@ -30,22 +29,33 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
         super(AchievementTaskSetAdmin, self).save_related(
             request, form, formsets, change
         )
-        achievement = Achievement.objects.get(slug=self.slug)
+        achievement = form.instance.achievement
         task_list = AchievementTaskSet.objects.get(slug=self.slug).tasks.all()
+        achievement.name = form.instance.name
         achievement.description = ", ".join(task.name for task in task_list)
         achievement.save()
-        for user in User.objects.all():
-            solved_all = True
-            for task in task_list:
-                if not Review.objects.filter(
-                    submit__user=user,
-                    submit__receiver__in=task.submit_receivers.all(),
-                    score=100,
-                ).exists():
-                    solved_all = False
-
-            if solved_all:
-                achievement.award_to(user)
+        task_list = [t.pk for t in task_list]
+        for user in User.objects.raw(
+            """
+SELECT "auth_user"."id"
+FROM "auth_user" 
+WHERE (
+    SELECT COUNT(DISTINCT V1."task_id") 
+    FROM "submit_submit" V0 
+    INNER JOIN "submit_submitreceiver" V1 ON (V0."receiver_id" = V1."id") 
+    WHERE (V1."task_id" = ANY(%s)
+            AND V0."user_id" = "auth_user"."id" 
+            AND (
+                SELECT U0."score" 
+                FROM "submit_review" U0 
+                WHERE U0."submit_id" = V0."id" 
+                ORDER BY U0."time" DESC LIMIT 1) = 100.0
+            )
+    ) = %s
+""",
+            [task_list, len(task_list)],
+        ):
+            achievement.users.add(user)
 
 
 admin.site.register(AchievementTaskSet, AchievementTaskSetAdmin)

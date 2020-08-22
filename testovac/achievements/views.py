@@ -16,5 +16,5 @@ def detail(request, slug):
     return render(
         request,
         "achievements/detail.html",
-        dict(achievement=achievement, users=achievement.user.all()),
+        dict(achievement=achievement, users=achievement.users.all()),
     )

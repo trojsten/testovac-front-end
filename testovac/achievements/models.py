@@ -20,16 +20,12 @@ class Achievement(models.Model):
     )
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
-    user = models.ManyToManyField(
+    users = models.ManyToManyField(
         User, related_name="achievements", through="AchievementToUser"
     )
 
     def get_absolute_url(self):
         return reverse("achievement_detail", kwargs={"slug": self.slug})
-
-    def award_to(self, user):
-        if not self in user.achievements.all():
-            AchievementToUser.objects.create(achievement=self, user=user)
 
 
 class AchievementTaskSet(models.Model):
@@ -50,20 +46,14 @@ class AchievementTaskSet(models.Model):
     def handler(sender, **kwargs):
         review = kwargs["instance"]
         user = review.submit.user
-        for achievementTaskSet in AchievementTaskSet.objects.all():
+        task = review.submit.receiver.task
+        for achievementTaskSet in AchievementTaskSet.objects.filter(tasks__in=[task]):
             task_list = achievementTaskSet.tasks.all()
-            solved_all = True
-            for task in task_list:
-                if not Review.objects.filter(
-                    submit__user=user,
-                    submit__receiver__in=task.submit_receivers.all(),
-                    score=100,
-                ).exists():
-                    solved_all = False
+            if Review.objects.order_by("submit", "-time").distinct("submit").filter(
+                score=100, submit__user=user, submit__receiver__task__in=task_list,
+            ).values("submit__receiver__task").distinct().count() == len(task_list):
 
-            if solved_all:
-                achievement = Achievement.objects.get(slug=achievementTaskSet.slug)
-                achievement.award_to(user)
+                achievementTaskSet.achievement.users.add(user)
 
 
 class AchievementToUser(models.Model):
