@@ -8,7 +8,7 @@ django-nyt==1.1.5
 django-sekizai==1.1.0
 django-sendfile==0.3.11
 sorl-thumbnail==12.6.3
-wiki==0.6
+wiki==0.7.9
 django-trojsten-news==0.2.2
 Unidecode==1.1.1
 constants==0.6.0
