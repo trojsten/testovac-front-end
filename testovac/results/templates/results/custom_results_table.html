@@ -6,9 +6,14 @@
 {% block title %}{{ table_object.name }}{% endblock %}
 
 {% block page_header %}
-    <h1>{{ table_object.name }}</h1>
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{{ table_object.name }}</h1>
+        </li>
+    </ul>
+    
 {% endblock %}
 
 {% block page_content %}
-    {% results_table task_list %}
+    {% results_table table_object.slug task_list %}
 {% endblock %}

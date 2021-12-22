@@ -8,23 +8,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tasks', '0001_initial'),
+        ("tasks", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='competition',
-            name='slug',
-            field=models.SlugField(help_text=b'Must be unique, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False),
+            model_name="competition",
+            name="slug",
+            field=models.SlugField(
+                help_text=b'Must be unique, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".',
+                primary_key=True,
+                serialize=False,
+            ),
         ),
         migrations.AlterField(
-            model_name='contest',
-            name='slug',
-            field=models.SlugField(help_text=b'Must be unique among all contests, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False),
+            model_name="contest",
+            name="slug",
+            field=models.SlugField(
+                help_text=b'Must be unique among all contests, serves as part of URL.<br />Must only contain characters "a-zA-Z0-9_-".',
+                primary_key=True,
+                serialize=False,
+            ),
         ),
         migrations.AlterField(
-            model_name='task',
-            name='slug',
-            field=models.SlugField(help_text=b'Must be unique among all tasks, serves as part of URL.<br />By default, task.slug is also used as a name of inputs folder at judge.<br />Must only contain characters "a-zA-Z0-9_-".', primary_key=True, serialize=False),
+            model_name="task",
+            name="slug",
+            field=models.SlugField(
+                help_text=b'Must be unique among all tasks, serves as part of URL.<br />By default, task.slug is also used as a name of inputs folder at judge.<br />Must only contain characters "a-zA-Z0-9_-".',
+                primary_key=True,
+                serialize=False,
+            ),
         ),
     ]

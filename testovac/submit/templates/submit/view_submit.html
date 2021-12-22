@@ -24,8 +24,19 @@
 {% endblock %}
 
 {% block page_header %}
-    <h1>{% trans 'Submit details' %}</h1>
-
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Submit details' %}</h1>
+        </li>
+        <li class="pull-right">
+            <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-nav" href="{% url 'task_statement' task_id %}">
+                        <span class="glyphicon" aria-hidden="true"></span> Späť na úlohu
+                    </a>
+                </div>
+            </li>
+     </ul>
+    
     {% if user_has_admin_privileges %}
         <a href="{% url 'admin:submit_submit_change' submit.id %}">
             <span class="glyphicon glyphicon-pencil"></span> {% trans 'Edit and review' %}

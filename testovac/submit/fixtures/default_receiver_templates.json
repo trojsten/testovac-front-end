@@ -12,7 +12,8 @@
           [".py", "Python 3.4 (.py/.py3)"],
           [".hs", "Haskell (.hs)"],
           [".cs", "C# (.cs)"],
-          [".java", "Java (.java)"]
+          [".java", "Java (.java)"],
+          [".rs", "Rust (.rs)"]
         ]
       },
       "send_to_judge": true,

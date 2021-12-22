@@ -1,0 +1,40 @@
+{% extends "testovac/base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}Achievement: {{ achievement.name }}{% endblock %}
+
+{% block page_header %}
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>Achievement: {{ achievement.name }}</h1>
+        </li>
+        {% if user.is_staff %}
+            <li class="pull-right">
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-nav" href="{% url 'admin:achievements_achievementtaskset_add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new task set with achievement' %}
+                    </a>
+                </div>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block page_content %}
+<div id="achievements_tank">
+    <p>{{ achievement.description }}</p>
+	<table class=" table users">
+		{% for u in users %}
+            <tr>
+                <td class="col-xs-2">{{ u.username }}</td>
+                <td class="col-xs-4">{{ u.first_name }} {{ u.last_name }}</td>
+                <td class="col-xs-6"></td>
+			</tr>
+		{% empty %}
+			<tr><td>Nobody has earned this achievement!</td></tr>
+		{% endfor %}
+    </table>
+</div>
+{% endblock %}

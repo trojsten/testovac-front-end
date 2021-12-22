@@ -1,0 +1,46 @@
+{% extends 'testovac/base.html' %}
+
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}{% trans 'Achievements' %}{% endblock %}
+
+{% block page_header %}
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Achievements' %}</h1>
+        </li>
+        {% if user.is_staff %}
+            <li class="pull-right">
+                
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary btn-nav" href="{% url 'admin:achievements_achievementtaskset_add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new task set with achievement' %}
+                    </a>
+                </div>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block page_content %}
+<table class="table achievements">
+    {% for achievement in achievements %}
+    <tr class="{% cycle 'highlighted' '' %}">
+        <td class="checkmarks col-xs-1">
+            {% if achievement in request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %} 
+            <div class="pull-right">
+                {{ achievement.user.count|intcomma }} × 
+            </div>
+        </td>
+        <td class="achievement col-xs-4">
+            <a href="{{ achievement.get_absolute_url }}" title="{{ achievement.name }}">
+                <span>●</span> {{ achievement.name }}
+            </a>
+        </td>
+        <td class="achievement_description col-xs-7">{{ achievement.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

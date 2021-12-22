@@ -15,44 +15,46 @@ def points_format(points):
     return display_points(points)
 
 
-@register.inclusion_tag('results/parts/results_table.html', takes_context=True)
-def results_table(context, slug, task_list):
-    request = context['request']
+@register.inclusion_tag("results/parts/results_table.html", takes_context=True)
+def results_table(context, slug, task_list, group):
+    request = context["request"]
     max_sum = sum(task.max_points for task in task_list)
 
-    table_data = cache.get(slug)
+    cache_key = "%s-%s" % (slug, str(group))
+    table_data = cache.get(cache_key)
     if table_data is None:
-        table_data = ResultsGenerator(User.objects.all(), task_list).generate_result_table_context()
-        cache.set(slug, table_data)
+        users = User.objects.filter(groups__name=group) if group else User.objects.all()
+        table_data = ResultsGenerator(users, task_list).generate_result_table_context()
+        cache.set(cache_key, table_data)
 
     return {
-        'tasks': task_list,
-        'table_data': table_data,
-        'max_sum': max_sum,
-        'show_staff': is_true(request.GET.get('show_staff', request.user.is_staff)),
-        'user': request.user,
+        "tasks": task_list,
+        "table_data": table_data,
+        "max_sum": max_sum,
+        "show_staff": is_true(request.GET.get("show_staff", request.user.is_staff)),
+        "user": request.user,
     }
 
 
-@register.inclusion_tag('results/parts/completed_status.html')
+@register.inclusion_tag("results/parts/completed_status.html")
 def completed_status(task, user, user_task_points):
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return {
-            'render': False,
+            "render": False,
         }
 
     points = user_task_points[user.pk][task.pk] or 0
 
     if Decimal(points) == 0:
-        level = 'danger'
+        level = "danger"
     elif Decimal(points) >= Decimal(task.max_points):
-        level = 'success'
+        level = "success"
     else:
-        level = 'warning'
+        level = "warning"
 
     return {
-        'render': True,
-        'points': display_points(points),
-        'max': display_points(task.max_points),
-        'level': level,
+        "render": True,
+        "points": display_points(points),
+        "max": display_points(task.max_points),
+        "level": level,
     }

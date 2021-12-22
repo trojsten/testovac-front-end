@@ -8,12 +8,9 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('results', '0002_customresultstable_number'),
+        ("results", "0002_customresultstable_number"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='customresultstable',
-            name='contests',
-        ),
+        migrations.RemoveField(model_name="customresultstable", name="contests",),
     ]

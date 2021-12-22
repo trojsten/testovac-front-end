@@ -10,13 +10,13 @@
         This button is hidden to prevent misclicks that could cause a judge overflow.
         Also the url path for this command is currently deactivated.
         TODO: Implement pop-up / confirmation page for resubmit approval
-
+    {% endcomment %}
         {% if receiver.configuration.send_to_judge %}
             <a href="{% url 'rejudge_receiver_submits' receiver.id %}">
                 <span class="glyphicon glyphicon-send"></span> {% trans 'Rejudge last submits' %}
             </a>
         {% endif %}
-    {% endcomment %}
+    
     </p>
 {% endif %}
 

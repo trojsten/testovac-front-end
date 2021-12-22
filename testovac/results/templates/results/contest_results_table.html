@@ -6,9 +6,13 @@
 {% block title %}{% trans 'Results for' %} {{ contest.name }}{% endblock %}
 
 {% block page_header %}
-    <h1>{% trans 'Results for' %} {{ contest.name }}</h1>
+    <ul class="nav nav-pills">
+        <li class="pull-left">
+            <h1>{% trans 'Results for' %} {{ contest.name }}</h1>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block page_content %}
-    {% results_table contest.slug task_list %}
+    {% results_table contest.slug task_list group %}
 {% endblock %}

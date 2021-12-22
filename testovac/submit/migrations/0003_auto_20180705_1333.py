@@ -8,13 +8,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('submit', '0002_review_filename'),
+        ("submit", "0002_review_filename"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submit',
-            name='is_accepted',
-            field=models.IntegerField(choices=[(0, 'no'), (1, 'with penalization'), (2, 'yes')], default=2),
+            model_name="submit",
+            name="is_accepted",
+            field=models.IntegerField(
+                choices=[(0, "no"), (1, "with penalization"), (2, "yes")], default=2
+            ),
         ),
     ]
