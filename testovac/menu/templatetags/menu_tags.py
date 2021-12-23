@@ -15,7 +15,11 @@ def static_menu_items(request):
             "text": _("News"),
             "link": reverse("news_list", kwargs={"page": 1}),
         },
-        {"url_regex": r"^/tasks", "text": _("Tasks"), "link": reverse("contest_list"),},
+        {
+            "url_regex": r"^/tasks",
+            "text": _("Tasks"),
+            "link": reverse("contest_list"),
+        },
         {
             "url_regex": r"^/results",
             "text": _("Results"),
@@ -62,7 +66,11 @@ def menu(context):
 
     if request.user.is_staff:
         items.append(
-            {"url_regex": r"^/admin", "text": "Admin", "link": reverse("admin:index"),}
+            {
+                "url_regex": r"^/admin",
+                "text": "Admin",
+                "link": reverse("admin:index"),
+            }
         )
 
     return {"items": items}

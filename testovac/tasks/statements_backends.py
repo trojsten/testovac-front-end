@@ -57,7 +57,10 @@ class StatementsPDFBackend(StatementsBackend):
     def download_statement(self, request, task):
         has_statement, path = self.find_statement(task)
         if has_statement:
-            response = sendfile(request, path,)
+            response = sendfile(
+                request,
+                path,
+            )
             response["Content-Disposition"] = 'inline; filename="{}"'.format(
                 task.slug + ".pdf"
             )

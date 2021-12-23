@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name="submit", old_name="is_pulic", new_name="is_public",
+            model_name="submit",
+            old_name="is_pulic",
+            new_name="is_public",
         ),
     ]

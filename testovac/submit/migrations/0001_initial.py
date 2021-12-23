@@ -34,7 +34,10 @@ class Migration(migrations.Migration):
                 ("short_response", models.CharField(blank=True, max_length=128)),
                 ("comment", models.TextField(blank=True)),
             ],
-            options={"verbose_name": "review", "verbose_name_plural": "reviews",},
+            options={
+                "verbose_name": "review",
+                "verbose_name_plural": "reviews",
+            },
         ),
         migrations.CreateModel(
             name="Submit",
@@ -58,7 +61,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "submit", "verbose_name_plural": "submits",},
+            options={
+                "verbose_name": "submit",
+                "verbose_name_plural": "submits",
+            },
         ),
         migrations.CreateModel(
             name="SubmitReceiver",

@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name="achievement", old_name="user", new_name="users",
+            model_name="achievement",
+            old_name="user",
+            new_name="users",
         ),
     ]

@@ -13,7 +13,9 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name="submitreceiver", old_name="task_new", new_name="task",
+            model_name="submitreceiver",
+            old_name="task_new",
+            new_name="task",
         ),
         migrations.AlterField(
             model_name="submitreceiver",

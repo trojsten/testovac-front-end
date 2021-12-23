@@ -53,7 +53,11 @@ def contest_list(request):
         "hide_finished": hide_finished,
     }
 
-    return render(request, "tasks/contest_list.html", template_data,)
+    return render(
+        request,
+        "tasks/contest_list.html",
+        template_data,
+    )
 
 
 def task_statement(request, task_slug):
@@ -77,7 +81,11 @@ def task_statement(request, task_slug):
             request, task
         ),
     }
-    return render(request, "tasks/task_statement.html", template_data,)
+    return render(
+        request,
+        "tasks/task_statement.html",
+        template_data,
+    )
 
 
 def task_statement_download(request, task_slug):

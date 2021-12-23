@@ -83,7 +83,7 @@
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ contest.slug }}-tasklist" aria-expanded="false" aria-controls="{{ contest.slug }}-tasklist">
                         Zobraziť úlohy
                     </button>
-                    
+
                     <div class="collapse multi-collapse" id="{{ contest.slug }}-tasklist">
                         <div class="list-group" >
                             {% for task in contest.task_set.all %}

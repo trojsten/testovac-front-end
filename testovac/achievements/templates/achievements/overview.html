@@ -12,7 +12,7 @@
         </li>
         {% if user.is_staff %}
             <li class="pull-right">
-                
+
                 <div class="btn-group" role="group">
                     <a class="btn btn-primary btn-nav" href="{% url 'admin:achievements_achievementtaskset_add' %}">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans 'Create new task set with achievement' %}
@@ -28,9 +28,9 @@
     {% for achievement in achievements %}
     <tr class="{% cycle 'highlighted' '' %}">
         <td class="checkmarks col-xs-1">
-            {% if achievement in request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %} 
+            {% if achievement in request.user.achievements.all %}<span title="You have earned this achievement">✔ </span>{% endif %}
             <div class="pull-right">
-                {{ achievement.user.count|intcomma }} × 
+                {{ achievement.user.count|intcomma }} ×
             </div>
         </td>
         <td class="achievement col-xs-4">

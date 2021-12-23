@@ -7,8 +7,8 @@ from django.db import migrations
 
 def make_many_contests(apps, schema_editor):
     """
-        Adds the Contest object in Task to the
-        many-to-many relationship in Contests
+    Adds the Contest object in Task to the
+    many-to-many relationship in Contests
     """
     Task = apps.get_model("tasks", "Task")
 

@@ -58,7 +58,10 @@ def send_file(request, filepath, filename):
     as_attachment = extension.lower() not in submit_settings.SUBMIT_VIEWABLE_EXTENSIONS
     if os.path.exists(filepath):
         response = sendfile(
-            request, filepath, attachment=as_attachment, attachment_filename=filename,
+            request,
+            filepath,
+            attachment=as_attachment,
+            attachment_filename=filename,
         )
         response["Content-Disposition"] = 'inline; filename="%s"' % filename
         return response

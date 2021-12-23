@@ -1,18 +1,25 @@
 repos:
--   repo: https://github.com/asottile/seed-isort-config
-    rev: v1.9.3
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.9.3
     hooks:
-    - id: seed-isort-config
--   repo: https://github.com/pre-commit/mirrors-isort
-    rev: v4.3.21
+      - id: isort
+  - repo: https://github.com/python/black
+    rev: 21.12b0
     hooks:
-    - id: isort
--   repo: https://github.com/ambv/black
-    rev: stable
+      - id: black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
     hooks:
-    - id: black
-      language_version: python3.8
-#-   repo: https://github.com/pre-commit/pre-commit-hooks
-#    rev: v2.3.0
-#    hooks:
-#    - id: flake8
+      - id: end-of-file-fixer
+        exclude: >
+          (?x)^(
+              setup.cfg|
+              trojsten/static/.*
+          )$
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+# TODO fix problems and uncomment
+#   - repo: https://github.com/pycqa/flake8
+#     rev: 4.0.1
+#     hooks:
+#     -   id: flake8

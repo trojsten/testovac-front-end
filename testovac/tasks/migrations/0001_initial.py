@@ -95,7 +95,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "contest", "verbose_name_plural": "contests",},
+            options={
+                "verbose_name": "contest",
+                "verbose_name_plural": "contests",
+            },
         ),
         migrations.CreateModel(
             name="Task",
@@ -122,6 +125,9 @@ class Migration(migrations.Migration):
                     models.ManyToManyField(to="submit.SubmitReceiver"),
                 ),
             ],
-            options={"verbose_name": "task", "verbose_name_plural": "tasks",},
+            options={
+                "verbose_name": "task",
+                "verbose_name_plural": "tasks",
+            },
         ),
     ]

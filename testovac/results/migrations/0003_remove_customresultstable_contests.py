@@ -12,5 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="customresultstable", name="contests",),
+        migrations.RemoveField(
+            model_name="customresultstable",
+            name="contests",
+        ),
     ]

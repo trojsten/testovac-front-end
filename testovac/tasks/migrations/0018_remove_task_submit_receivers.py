@@ -11,5 +11,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="task", name="submit_receivers",),
+        migrations.RemoveField(
+            model_name="task",
+            name="submit_receivers",
+        ),
     ]

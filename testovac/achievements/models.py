@@ -48,9 +48,19 @@ class AchievementTaskSet(models.Model):
         task = review.submit.receiver.task
         for achievementTaskSet in AchievementTaskSet.objects.filter(tasks__in=[task]):
             task_list = achievementTaskSet.tasks.all()
-            if Review.objects.order_by("submit", "-time").distinct("submit").filter(
-                score=100, submit__user=user, submit__receiver__task__in=task_list,
-            ).values("submit__receiver__task").distinct().count() == len(task_list):
+            if (
+                Review.objects.order_by("submit", "-time")
+                .distinct("submit")
+                .filter(
+                    score=100,
+                    submit__user=user,
+                    submit__receiver__task__in=task_list,
+                )
+                .values("submit__receiver__task")
+                .distinct()
+                .count()
+                == len(task_list)
+            ):
 
                 achievementTaskSet.achievement.users.add(user)
 
