@@ -166,6 +166,8 @@ MESSAGE_TAGS = {
     message_constants.ERROR: "alert-danger",
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # Wiki settings
 USE_SENDFILE = True
 WIKI_ATTACHMENTS_PATH = env(

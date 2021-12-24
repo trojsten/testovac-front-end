@@ -22,7 +22,7 @@ class LoadConfigurationFromTemplate(forms.Select):
 
 class SubmitReceiverForm(forms.ModelForm):
     receiver_template = forms.ChoiceField(
-        choices=((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
+        choices=lambda: ((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
         widget=LoadConfigurationFromTemplate(),
     )
 
