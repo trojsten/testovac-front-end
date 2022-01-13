@@ -2,7 +2,7 @@ Django==3.2.10
 psycopg2-binary==2.8.6
 django-easy-select2==1.5.7
 Markdown==3.2.2
-Pillow==8.4.0
+Pillow==9.0.0
 django-bootstrap-form==3.4
 django-sekizai==2.0.0
 django-sendfile==0.3.11
