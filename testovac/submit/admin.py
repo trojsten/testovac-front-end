@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from django.http import HttpResponse
+from zipfile import ZipFile
+import io
 
 from testovac.submit.models import (
     Review,
@@ -53,6 +56,12 @@ class ViewOnSiteMixin(object):
     view_on_site_list_display.allow_tags = True
     view_on_site_list_display.short_description = u"View on site"
 
+def export_as_zip(modeladmin, request, queryset):
+    zipfile = io.BytesIO()
+    with ZipFile(zipfile) as zf:
+        for submit in queryset:
+            zf.write(submit.file_path())
+    return HttpResponse(zipfile, content_type="application/zip")
 
 class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     inlines = [ReviewInline]
@@ -69,6 +78,7 @@ class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
         "filename",
     )
     search_fields = ("user__username", "user__first_name", "user__last_name")
+    actions = [export_as_zip]
 
     def submit_id(self, submit):
         return "submit %d" % (submit.id,)
