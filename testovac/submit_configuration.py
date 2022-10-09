@@ -42,7 +42,7 @@ class PostSubmitFormCustomized(PostSubmitForm):
 
 def can_post_submit(receiver, user):
     task = receiver.task
-    if task:
+    if not task:
         return False
     for contest in task.contests.all():
         if contest.tasks_visible_for_user(user):
