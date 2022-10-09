@@ -58,9 +58,10 @@ class ViewOnSiteMixin(object):
 
 def export_as_zip(modeladmin, request, queryset):
     zipfile = io.BytesIO()
-    with ZipFile(zipfile) as zf:
+    with ZipFile(zipfile,'w') as zf:
         for submit in queryset:
-            zf.write(submit.file_path())
+            zf.write(submit.file_path(), arcname='{}_{}_{}'.format(submit.id, submit.user.get_full_name(), submit.filename))
+    zipfile.seek(0)
     return HttpResponse(zipfile, content_type="application/zip")
 
 class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
