@@ -80,6 +80,7 @@ class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     )
     search_fields = ("user__username", "user__first_name", "user__last_name")
     actions = [export_as_zip]
+    list_max_show_all = 2000
 
     def submit_id(self, submit):
         return "submit %d" % (submit.id,)

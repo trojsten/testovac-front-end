@@ -150,7 +150,7 @@ def view_submit(request, submit_id):
     }
 
     if data["show_submitted_file"]:
-        with open(submit.file_path(), "r") as submitted_file:
+        with open(submit.file_path(), "r", encoding="utf-8", errors='replace') as submitted_file:
             data["submitted_file"] = submitted_file.read()
 
     if data["protocol_expected"] and review and review.protocol_exists():
