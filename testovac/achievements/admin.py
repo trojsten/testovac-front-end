@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from testovac.achievements.models import Achievement, AchievementTaskSet
+from testovac.achievements.models import Achievement, AchievementTaskSet, AchievementToUser
 
 
 class AchievementAdmin(admin.ModelAdmin):
@@ -53,6 +53,9 @@ WHERE (
         ):
             achievement.users.add(user)
 
+class AchievementToUserAdmin(admin.ModelAdmin):
+    list_display = ("created", "user", "achievement")
 
 admin.site.register(AchievementTaskSet, AchievementTaskSetAdmin)
 admin.site.register(Achievement, AchievementAdmin)
+admin.site.register(AchievementToUser, AchievementToUserAdmin)

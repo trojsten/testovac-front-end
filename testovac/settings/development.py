@@ -19,4 +19,4 @@ INTERNAL_IPS = ("127.0.0.1",)
 # Dummy email configuration
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-ALLOWED_HOSTS = ['ksp.sk']
+ALLOWED_HOSTS = ['testovac.ksp.sk']
