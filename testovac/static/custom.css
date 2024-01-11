@@ -139,3 +139,65 @@ li>h2{ margin-top: 0; }
 textarea.markItUp.markItUpEditor{
     min-height: 300px;
 }
+
+details.hint-group {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+details.hint-group > summary {
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 100%;
+    font-size: large;
+    font-weight: 500;
+    padding: 8px;
+    transition: background-color 0.2s, border-color 0.3s;
+ 
+    &:hover {
+        background-color: #f5f5f5;
+    }
+    &:active {
+        border-color: #007bff;
+    }
+}
+
+details.hint {
+    padding: 4px 12px 4px 12px;
+    color: #333;
+}
+
+details.hint > summary {
+    color: #337ab7;
+    outline: none;
+    user-select: none;
+    cursor: pointer;
+    padding: 4px;
+    background-color: none;
+    display: inline-block;
+    margin: 4px 0px 0px -4px;
+    transition: color 0.2s, background-color 0.2s, border-color 0.3s;
+  
+    &:hover {
+        color: #0089bb;
+        --text-decoration: underline;
+        --background-color: #ccc;
+    }
+    &:active {
+        color: #8acaff;
+        --background-color: #337ab7;
+    }   
+}
+
+details.hint > summary::after {
+    content: ":";
+    visibility: hidden;
+}
+
+details[open].hint > summary::after {
+    visibility: visible;
+}

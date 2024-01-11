@@ -23,20 +23,20 @@ class LoadConfigurationFromTemplate(forms.Select):
         js = ("submit/load-configuration-from-template.js",)
 
 
-class SubmitReceiverForm(forms.ModelForm):
-    receiver_template = forms.ChoiceField(
-        choices=((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
-        widget=LoadConfigurationFromTemplate(),
-    )
+#class SubmitReceiverForm(forms.ModelForm):
+#    receiver_template = forms.ChoiceField(
+#        choices=((x.id, str(x)) for x in SubmitReceiverTemplate.objects.all()),
+#        widget=LoadConfigurationFromTemplate(),
+#    )
 
-    class Meta:
-        model = SubmitReceiver
-        fields = ("receiver_template", "configuration", "task")
-        widgets = {"configuration": forms.Textarea(attrs={"rows": 15, "cols": 40})}
+#    class Meta:
+#        model = SubmitReceiver
+#        fields = ("receiver_template", "configuration", "task")
+#        widgets = {"configuration": forms.Textarea(attrs={"rows": 15, "cols": 40})}
 
 
 class SubmitReceiverAdmin(admin.ModelAdmin):
-    form = SubmitReceiverForm
+    pass
 
 
 class ReviewInline(admin.StackedInline):

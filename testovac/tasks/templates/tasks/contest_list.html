@@ -13,7 +13,7 @@
 
         <li class="pull-right">
             <div class="btn-group">
-                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false">Zobraziť všetky úlohy</button>
+                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false">Show All Problems</button>
                 {% if hide_finished %}
                     <a href="?hide_finished=False" class="btn btn-default btn-sm">
                         {% trans 'Show finished' %}
@@ -45,7 +45,7 @@
                 <h3>
                     {{ contest.name }}
                     {% if contest.is_running %}
-                        <span class="label label-success pull-right">{% trans 'Runnig now' %}</span>
+                        <span class="label label-success pull-right">{% trans 'Active' %}</span>
                     {% elif not contest.has_started %}
                         <span class="label label-info pull-right">{% trans 'New contest' %}</span>
                     {% endif %}
@@ -81,7 +81,7 @@
 
                 {% if user.is_staff or contest.has_started %}
                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ contest.slug }}-tasklist" aria-expanded="false" aria-controls="{{ contest.slug }}-tasklist">
-                        Zobraziť úlohy
+                        Show problems
                     </button>
 
                     <div class="collapse multi-collapse" id="{{ contest.slug }}-tasklist">

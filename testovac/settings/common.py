@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 SITE_ID = 1
 
 # HACK: competition and site should be connected
-CURRENT_COMPETITION_PK = "letna-skola"
+CURRENT_COMPETITION_PK = "eng-contest"
 
 # Application definition
 INSTALLED_APPS = (
@@ -74,6 +74,7 @@ MIDDLEWARE = (
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -113,6 +114,8 @@ DATABASES = {
         "NAME": env("TESTOVAC_FRONT_DATABASE_NAME", "testovacfront"),
         "USER": env("TESTOVAC_FRONT_DATABASE_USER", "testovacfront"),
         "PASSWORD": env("TESTOVAC_FRONT_DATABASE_PASSWORD", ""),
+        #"HOST": env("DB_HOST", None),
+        #"PORT": 5432,
     },
 }
 
@@ -136,7 +139,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+# USE_TZ = True
 
 LOCALE_PATHS = (os.path.join(PROJECT_DIR, PROJECT_MODULE_NAME, "locale"),)
 
@@ -183,9 +186,17 @@ WIKI_ATTACHMENTS_EXTENSIONS = [
     "zip",
 ]
 WIKI_MARKDOWN_KWARGS = {
-    "safe_mode": False,
+    "safe_mode": True,
     "output_format": "html5",
+    "extensions": [
+        "markdown.extensions.extra",
+        "markdown.extensions.attr_list",
+    ],
 }
+
+# fmt: off
+WIKI_MARKDOWN_HTML_WHITELIST = ["a","abbr","acronym","b","blockquote","br","code","dd","details","div","dl","dt","em","figcaption","figure","h1","h2","h3","h4","h5","h6","hr","i","img","li","ol","p","pre","span","strong","summary","sup","table","tbody","td","th","thead","tr","ul"]
+# fmt: on
 
 # Task statements
 TASKS_DEFAULT_SUBMIT_RECEIVER_TEMPLATE = "source"

@@ -10,26 +10,26 @@ register = template.Library()
 
 def static_menu_items(request):
     items = [
-        {
-            "url_regex": r"^/news",
-            "text": _("News"),
-            "link": reverse("news_list", kwargs={"page": 1}),
-        },
+        # {
+        #     "url_regex": r"^/news",
+        #     "text": _("News"),
+        #     "link": reverse("news_list", kwargs={"page": 1}),
+        # },
         {
             "url_regex": r"^/tasks",
             "text": _("Tasks"),
             "link": reverse("contest_list"),
         },
-        {
-            "url_regex": r"^/results",
-            "text": _("Results"),
-            "link": "%s?group=ls_2022_zaciatocnici" % reverse('results_index'),
-        },
-        {
-            "url_regex": r"^/achievements",
-            "text": _("Achievements"),
-            "link": reverse("achievement_overview"),
-        },
+        # {
+        #    "url_regex": r"^/results",
+        #    "text": _("Results"),
+        #    "link": "%s?group=ls_2022_zaciatocnici" % reverse('results_index'),
+        # },
+        # {
+        #     "url_regex": r"^/achievements",
+        #     "text": _("Achievements"),
+        #     "link": reverse("achievement_overview"),
+        # },
     ]
 
     return items
@@ -60,7 +60,8 @@ def wiki_articles_in_menu(request):
 @register.inclusion_tag("menu/menu.html", takes_context=True)
 def menu(context):
     request = context.get("request")
-    items = static_menu_items(request) + wiki_articles_in_menu(request)
+    wiki_articles = wiki_articles_in_menu(request)
+    items = wiki_articles[:1] + static_menu_items(request) + wiki_articles[1:]
     for item in items:
         item["is_active"] = bool(re.search(item["url_regex"], request.path))
 
