@@ -1,4 +1,4 @@
-from . import settings as submit_settings
+from testovac.submit import settings as submit_settings
 
 
 def display_score(review):

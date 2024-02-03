@@ -1,11 +1,11 @@
 import os
 
-from . import constants
+from testovac.submit import constants
 from django.http import Http404
 from sendfile import sendfile
 
-from . import settings as submit_settings
-from .models import Submit
+from testovac.submit import settings as submit_settings
+from testovac.submit.models import Submit
 
 
 def add_language_preference_to_filename(

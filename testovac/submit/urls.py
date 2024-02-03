@@ -1,9 +1,9 @@
 from django.conf.urls import url
 from django.utils.module_loading import import_string
 
-from . import settings as submit_settings
-from .commands import rejudge_receiver_submits, rejudge_submit
-from .views import (
+from testovac.submit import settings as submit_settings
+from testovac.submit.commands import rejudge_receiver_submits, rejudge_submit
+from testovac.submit.views import (
     download_review,
     download_submit,
     get_receiver_templates,

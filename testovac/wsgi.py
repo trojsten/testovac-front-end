@@ -16,4 +16,11 @@ identity = os.environ.get("TESTOVAC_FRONT_JUDGE_INTERFACE_IDENTITY")
 if identity != 'ADHOC':
     raise ValueError("Wrong env, this should be 'ADHOC': " + identity)
 
+# This might also help
+# https://modwsgi.readthedocs.io/en/master/user-guides/reloading-source-code.html
+#
+# import importlib
+# importlib.invalidate_caches()
+
+
 application = get_wsgi_application()

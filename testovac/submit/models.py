@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.utils.module_loading import import_string
 from django.utils.translation import ugettext_lazy as _
 
-from . import constants
-from . import settings as submit_settings
+from testovac.submit import constants
+from testovac.submit import settings as submit_settings
 
 
 class SubmitConfig(models.Model):

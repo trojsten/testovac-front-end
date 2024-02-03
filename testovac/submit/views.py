@@ -18,15 +18,15 @@ from testovac.results.generator import ResultsGenerator
 
 from testovac.tasks.models import Task
 
-from .constants import JudgeTestResult, ReviewResponse
-from .forms import FileSubmitForm
-from .judge_helpers import (
+from testovac.submit.constants import JudgeTestResult, ReviewResponse
+from testovac.submit.forms import FileSubmitForm
+from testovac.submit.judge_helpers import (
     JudgeConnectionError,
     create_review_and_send_to_judge,
     parse_protocol,
 )
-from .models import Review, Submit, SubmitReceiver, SubmitReceiverTemplate
-from .submit_helpers import create_submit, send_file, write_chunks_to_file
+from testovac.submit.models import Review, Submit, SubmitReceiver, SubmitReceiverTemplate
+from testovac.submit.submit_helpers import create_submit, send_file, write_chunks_to_file
 
 
 class PostSubmitForm(View):

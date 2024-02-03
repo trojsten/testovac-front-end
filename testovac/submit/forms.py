@@ -3,9 +3,9 @@ import os
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from . import constants
-from . import settings as submit_settings
-from .submit_helpers import add_language_preference_to_filename
+from testovac.submit import constants
+from testovac.submit import settings as submit_settings
+from testovac.submit.submit_helpers import add_language_preference_to_filename
 
 
 class FileSubmitForm(forms.Form):

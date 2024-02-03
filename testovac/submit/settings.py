@@ -35,7 +35,7 @@ SUBMIT_VIEWABLE_EXTENSIONS = getattr(
 )
 
 JUDGE_INTERFACE_IDENTITY = getattr(
-    django_settings, "JUDGE_INTERFACE_IDENTITY", "TESTOVAC"
+    django_settings, "JUDGE_INTERFACE_IDENTITY", "ADHOC"
 )
 JUDGE_ADDRESS = getattr(django_settings, "JUDGE_ADDRESS", "127.0.0.1")
 JUDGE_PORT = getattr(django_settings, "JUDGE_PORT", 12347)

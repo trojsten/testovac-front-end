@@ -7,10 +7,10 @@ from django.utils.module_loading import import_string
 from judge_client.client import JudgeClient, JudgeConnectionError
 from unidecode import unidecode
 
-from . import settings as submit_settings
-from .constants import JudgeTestResult, ReviewResponse
-from .models import Review
-from .submit_helpers import write_chunks_to_file
+from testovac.submit import settings as submit_settings
+from testovac.submit.constants import JudgeTestResult, ReviewResponse
+from testovac.submit.models import Review
+from testovac.submit.submit_helpers import write_chunks_to_file
 
 
 def send_to_judge(review, priority=0):
