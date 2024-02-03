@@ -32,14 +32,13 @@
                 {% submit_form receiver task.get_absolute_url user _('Solution') %}
                 <p></p>
                 {% if user_points == task.max_points %}
-                <h3>{% trans 'Reference Solutions:' %}</h3>
                     {% if 'form' in receiver.configuration %}
-                        {% public_submit_list receiver user %}
+                        {% public_submit_list receiver %}
                     {% endif %}
                 {% endif %}
                 <h3>{% trans 'Your Submits:' %}</h3>
                 {% if 'form' in receiver.configuration %}
-                    {% submit_list receiver user %}
+                    {% submit_list receiver user user_has_admin_privileges %}
                 {% endif %}
             </div>
         {% empty %}

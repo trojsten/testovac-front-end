@@ -85,6 +85,7 @@ class Submit(models.Model):
     ]
     is_accepted = models.IntegerField(default=ACCEPTED, choices=IS_ACCEPTED_CHOICES)
     is_public = models.BooleanField(default=False)
+    reference_name = models.CharField(max_length=32, null=True, blank=True)
 
     def dir_path(self):
         return os.path.join(
@@ -108,7 +109,10 @@ class Submit(models.Model):
 
     def get_absolute_url(self):
         return reverse("view_submit", kwargs=dict(submit_id=self.id))
-
+    
+    def get_display_name(self):
+        return self.reference_name or str(self.user.first_name) + "'s solution"
+    
     class Meta:
         verbose_name = "submit"
         verbose_name_plural = "submits"

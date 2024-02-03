@@ -69,5 +69,5 @@
     {% endif %}
 
     <h3>{% trans 'All submits' %}</h3>
-    {% submit_list submit.receiver submit.user %}
+    {% submit_list submit.receiver submit.user user_has_admin_privileges %}
 {% endblock page_content %}

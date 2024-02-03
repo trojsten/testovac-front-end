@@ -4,6 +4,7 @@ from glob import glob
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -13,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import View
+from testovac.results.generator import ResultsGenerator
 
 from testovac.tasks.models import Task
 
@@ -62,9 +64,7 @@ class PostSubmitForm(View):
             raise PermissionDenied()
 
         if "form" in config:
-            form = FileSubmitForm(
-                request.POST, request.FILES, configuration=config["form"]
-            )
+            form = FileSubmitForm(request.POST, request.FILES, configuration=config["form"])
         else:
             raise PermissionDenied()
 
@@ -78,9 +78,7 @@ class PostSubmitForm(View):
         else:
             for field in form:
                 for error in field.errors:
-                    messages.add_message(
-                        request, messages.ERROR, u"%s: %s" % (field.label, error)
-                    )
+                    messages.add_message(request, messages.ERROR, "%s: %s" % (field.label, error))
             for error in form.non_field_errors():
                 messages.add_message(request, messages.ERROR, error)
             return redirect(request.POST["redirect_to"])
@@ -94,15 +92,16 @@ class PostSubmitForm(View):
                 )
                 return redirect(request.POST["redirect_to"])
 
-        messages.add_message(
-            request, messages.SUCCESS, self.get_success_message(submit)
-        )
+        messages.add_message(request, messages.SUCCESS, self.get_success_message(submit))
         return redirect(request.POST["redirect_to"])
 
 
 @login_required
 def view_submit(request, submit_id):
-    submit = get_object_or_404(Submit.objects.select_related("receiver"), pk=submit_id)
+    submit = get_object_or_404(
+        Submit.objects.select_related("receiver").select_related("receiver__task"),
+        pk=submit_id,
+    )
     user_has_admin_privileges = submit.receiver.has_admin_privileges(request.user)
 
     def get_submit_picture(is_positive, submit_id):
@@ -111,8 +110,7 @@ def view_submit(request, submit_id):
         else:
             dirn = "negative/"
         files = [
-            os.path.basename(x)
-            for x in glob(os.path.join(settings.STATIC_ROOT, "gifs", dirn, "*"))
+            os.path.basename(x) for x in glob(os.path.join(settings.STATIC_ROOT, "gifs", dirn, "*"))
         ]
         if files == []:
             return None
@@ -121,29 +119,26 @@ def view_submit(request, submit_id):
         picture_id = submit_id % len(files)
         return "/static/gifs/%s%s" % (dirn, files[picture_id])
 
-    def get_image(review, submit_id):
+    def get_image(review, max_points, submit_id):
         if review.short_response == "OK":
             return get_submit_picture(True, submit_id)
         if review.short_response == "Sent to judge":
             return None
-        if review.score < 20:
+        if review.score < max_points * 0.32:
             return get_submit_picture(False, submit_id)
         return None
 
-    if (
-        submit.user != request.user
-        and not user_has_admin_privileges
-        and not submit.is_public
-    ):
+    if submit.user != request.user and not user_has_admin_privileges and not submit.is_public:
         raise PermissionDenied()
 
     conf = submit.receiver.configuration
+    task = submit.receiver.task
     review = submit.last_review()
     data = {
         "submit": submit,
         "task_id": str(submit.receiver).split()[0],
         "review": review,
-        "image": get_image(review, int(submit_id)),
+        "image": get_image(review, task.max_points, int(submit_id)),
         "user_has_admin_privileges": user_has_admin_privileges,
         "show_submitted_file": conf.get("show_submitted_file", False),
         "protocol_expected": conf.get("send_to_judge", False),
@@ -151,10 +146,12 @@ def view_submit(request, submit_id):
 
     if data["show_submitted_file"]:
         try:
-            with open(submit.file_path(), "r", encoding="utf-8", errors='replace') as submitted_file:
+            with open(
+                submit.file_path(), "r", encoding="utf-8", errors="replace"
+            ) as submitted_file:
                 data["submitted_file"] = submitted_file.read()
         except FileNotFoundError:
-             data["submitted_file"] = "NOT FOUND"
+            data["submitted_file"] = "NOT FOUND"
 
     if data["protocol_expected"] and review and review.protocol_exists():
         force_show_details = (
@@ -165,15 +162,21 @@ def view_submit(request, submit_id):
         data["protocol"] = parse_protocol(review.protocol_path(), force_show_details)
         data["result"] = JudgeTestResult
 
-    return render(request, "submit/view_submit.html", data)
+    if submit.is_public and (request.GET.get("ref") is not None or submit.user != request.user):
+        user_task_points = ResultsGenerator(
+            User.objects.filter(pk=request.user.pk), (task,)
+        ).get_user_task_points()
+        if (user_task_points[request.user.pk][task.pk] or 0) + 1e-7 < task.max_points:
+            raise PermissionDenied()
+        return render(request, "submit/view_reference_submit.html", data)
+    else:
+        return render(request, "submit/view_submit.html", data)
 
 
 @login_required
 def download_submit(request, submit_id):
     submit = get_object_or_404(Submit.objects.select_related("receiver"), pk=submit_id)
-    if submit.user != request.user and not submit.receiver.has_admin_privileges(
-        request.user
-    ):
+    if submit.user != request.user and not submit.receiver.has_admin_privileges(request.user):
         raise PermissionDenied()
     return send_file(request, submit.file_path(), submit.filename)
 
@@ -183,9 +186,8 @@ def download_review(request, review_id):
     review = get_object_or_404(
         Review.objects.select_related("submit", "submit__receiver"), pk=review_id
     )
-    if (
-        review.submit.user != request.user
-        and not review.submit.receiver.has_admin_privileges(request.user)
+    if review.submit.user != request.user and not review.submit.receiver.has_admin_privileges(
+        request.user
     ):
         raise PermissionDenied()
     return send_file(request, review.file_path(), review.filename)

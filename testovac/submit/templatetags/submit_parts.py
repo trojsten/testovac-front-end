@@ -30,7 +30,7 @@ def submit_form(receiver, redirect, user, caption=None):
 
 
 @register.inclusion_tag("submit/parts/submit_list.html")
-def submit_list(receiver, user):
+def submit_list(receiver, user, user_has_admin_privileges):
     """
     List of all submits for specified user and receiver.
     """
@@ -43,7 +43,7 @@ def submit_list(receiver, user):
     )
 
     data = {
-        "user_has_admin_privileges": receiver.has_admin_privileges(user),
+        "user_has_admin_privileges": user_has_admin_privileges,
         "receiver": receiver,
         "submits": [(review.submit, review) for review in last_review_for_each_submit],
         "response": ReviewResponse,
@@ -52,23 +52,26 @@ def submit_list(receiver, user):
     return data
 
 
-@register.inclusion_tag("submit/parts/submit_list.html")
-def public_submit_list(receiver, user):
+@register.inclusion_tag("submit/parts/public_submit_list.html")
+def public_submit_list(receiver, submit_id=None):
     """
     List of all public submits for specified receiver.
     """
 
     last_review_for_each_submit = (
         Review.objects.filter(submit__receiver=receiver, submit__is_public=True)
+        .exclude(submit__id=submit_id)
         .order_by("-submit__pk", "-time", "-pk")
         .distinct("submit__pk")
         .select_related("submit")
     )
+    submits = [(review.submit, review) for review in last_review_for_each_submit]
 
     data = {
+        "variant": "task" if submit_id is None else ("some" if len(submits) else "empty"),
         "user_has_admin_privileges": False,
         "receiver": receiver,
-        "submits": [(review.submit, review) for review in last_review_for_each_submit],
+        "submits": submits,
         "response": ReviewResponse,
         "Submit": Submit,
     }

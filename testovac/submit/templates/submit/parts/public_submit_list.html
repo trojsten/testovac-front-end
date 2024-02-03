@@ -1,0 +1,60 @@
+{% load i18n %}
+{% load submit_parts %}
+
+{% if variant == "task" %}
+<h3>{% trans 'Example Solutions:' %}</h3>
+{% elif variant == "some" %}
+<h3>{% trans 'Other Example Solutions:' %}</h3>
+{% endif %}
+
+{% if variant == "task" or variant == "some" %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'State' %}</th>
+            <th>{% trans 'Score' %}</th>
+            <th>{% trans 'Actions' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for submit, review in submits %}
+        {% if review %}
+            <tr class="{% if review.short_response == response.OK or review.short_response == response.REVIEWED %}
+                            success
+                       {% elif review.short_response == response.SENDING_TO_JUDGE or review.short_response == response.SENT_TO_JUDGE %}
+                            info
+                       {% elif review.score > 0 %}
+                            warning
+                       {% else %}
+                            danger
+                       {% endif %}">
+        {% else %}
+            <tr class="info">
+        {% endif %}
+            <td>
+                {{submit.get_display_name }}
+            </td>
+            <td>
+                {% if review %}
+                    <span>{{ review.verbose_response }}</span>
+                {% else %}
+                    <span>{% trans 'Not reviewed' %}</span>
+                {% endif %}
+                {% if submit.is_accepted == Submit.NOT_ACCEPTED %}
+                    <span class="text-danger">|&nbsp;{% trans 'Not accepted' %}</span>
+                {% elif submit.is_accepted == Submit.ACCEPTED_WITH_PENALIZATION %}
+                    <span class="text-danger">|&nbsp;{% trans 'Accepted with penalization' %}</span>
+                {% endif %}
+            </td>
+            {% if review %}
+                <td>{{ review.display_score }}</td>
+            {% else %}
+                <td>..</td>
+            {% endif %}
+            <td><a class="btn btn-primary btn-xs" href="{% url 'view_submit' submit_id=submit.id %}?ref">{% trans 'View' %}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
