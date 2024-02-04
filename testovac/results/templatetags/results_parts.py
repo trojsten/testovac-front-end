@@ -19,11 +19,15 @@ def points_format(points):
 def results_table(context, slug, task_list, group):
     request = context["request"]
     max_sum = sum(task.max_points for task in task_list)
+    show_staff = is_true(request.GET.get("show_staff", request.user.is_staff)) and request.user.is_staff
+    show_hidden = is_true(request.GET.get("show_hidden", request.user.is_staff)) and request.user.is_staff
 
-    cache_key = "%s-%s" % (slug, str(group))
+    cache_key = "%s-%s-%s" % (slug, str(group), str(show_hidden))
     table_data = cache.get(cache_key)
     if table_data is None:
         users = User.objects.filter(groups__name=group) if group else User.objects.all()
+        if not show_hidden:
+            users = users.exclude(last_name="Test")
         table_data = ResultsGenerator(users, task_list).generate_result_table_context()
         cache.set(cache_key, table_data)
 
@@ -31,7 +35,7 @@ def results_table(context, slug, task_list, group):
         "tasks": task_list,
         "table_data": table_data,
         "max_sum": max_sum,
-        "show_staff": is_true(request.GET.get("show_staff", request.user.is_staff)),
+        "show_staff": show_staff,
         "user": request.user,
     }
 

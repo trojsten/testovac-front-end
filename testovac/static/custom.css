@@ -146,6 +146,10 @@ details.hint-group {
     background-color: #f5f5f5;
 }
 
+details.hint-group > .hint-comment {
+    margin: 8px 12px 0px 12px;
+}
+
 details.hint-group > summary {
     cursor: pointer;
     outline: none;

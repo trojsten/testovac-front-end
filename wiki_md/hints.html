@@ -1,0 +1,546 @@
+<p>
+  Clicking on the task name is spoiler-free, but clicking further will reveal
+  some information. For some tasks, you'll find hints, for some, a brief
+  overview of the solution.
+</p>
+
+<p>
+  For all tasks, you'll find the time complexity (see
+  <a href="https://adhoc.ksp.sk/wiki/guide/"
+    >Theoretical Time Complexity -- What is it?</a
+  >) of the reference solution, so when you submit a solution and it gets a Time
+  Limit Exceeded (TLE), you can compare it.
+</p>
+
+<p>
+  Be aware that just seeing the time complexity can sometimes spoil the solution
+  for you.
+</p>
+
+<p>
+  <strong>We suggest looking at the hints only after you've submitted a solution that
+  earned more than zero points.</strong>
+</p>
+
+<h2>Day 1</h2>
+
+<details class="hint-group">
+  <summary>dc-linsum: Intervals (warm-up)</summary>
+  <div class="hint-comment">
+    <p>
+      We really hope that you don't need help with finding the solution. If you
+      only have a problem with parsing the input, or submitting the solution,
+      better ask organizers to help you with your specific issue.
+    </p>
+    <p>Anyway, the hint is here, if you need it:</p>
+  </div>
+  <details class="hint">
+    <summary>Hint</summary>
+    Google "Gauss formula"
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-difference: Difference</summary>
+  <details class="hint">
+    <summary>Hint to solution 1</summary>
+    What if the array is sorted?
+  </details>
+  <details class="hint">
+    <summary>Hint to solution 2</summary>
+    Can you use a <code>set()</code>?
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    Solution 1 is $O(n \log n)$, just because of the sort. If the numbers are
+    already sorted, then it's $O(n)$. <br />
+    Solution 2 is $O(n)$.
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-dog: Dogs and Bones</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    What if you had $S[i] = \text{sum}(A[..i])$?
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-sparrow: Jumping Sparrow</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    If you have 2D prefix sums, you only need to look at 4 elements to get the
+    sum of any rectangle.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(rc)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-llama: Llama</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Using regex (<code>import re</code>) might simplify your code. To simplify a
+    fraction, you can either use <code>fractions</code> library, or
+    <code>math.gcd()</code>.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(\text{input\_length})$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-power: Exponentiation</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    $2^{100} = (2^{50})^2$
+  </details>
+  <details class="hint">
+    <summary>Time complexity (with SPOILER)</summary>
+    $O(n \log(\max(b_i)))$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-triangles: Triangular</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Store triangles in some canonical way, e.g. $a < b < c$. <br />
+    Have a structure where you can easily find $(a,b,c)$ tuples. <br />
+    Have a structure, where you can easily find $(b/a, c/a)$, this can be done
+    without using floats, if needed. <br />
+    The rest should be straightforward.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$, but $O(n \log n)$ should pass within the time limit as well.
+  </details>
+</details>
+
+<h2>Day 2</h2>
+
+<details class="hint-group">
+  <summary>dc-generate: Generate Strings</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Recursion
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n^k)$, and we are promised that $n^k < 100\,000$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-search: Find the Number</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Binary search
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(q \log n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-hedgehog: Picture Puzzle</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Binary search
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(k \log n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-components: Number of Components</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Do you remember ms-paint? There was this paint bucket tool, that allowed you
+    to fill neighbouring areas.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    DFS - when colouring any vertex, also colour its uncoloured neighbours.
+    Number of components is the number of different colours you used. <br />
+    Also don't forget about <code>sys.setrecursionlimit(1_000_000)</code>.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n + m)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-labyrinth: Maze</summary>
+  <details class="hint">
+    <summary>Strong-ish hint</summary>
+    Do you remember ms-paint? There was this paint bucket tool, that allowed you
+    to fill neighbouring areas. Try to simulate the filling over time. First
+    color the start, then color it's neighbours, then neighbours of neighbours.
+    Distance to vertex $x$ is the time when the paint reaches $x$.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    BFS - maintain a FIFO queue of soon to be processed vertices. Always take
+    the first element from the queue and put its unvisited neighbours to the end
+    of the queue.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(r \cdot s)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-xorset: Xor on a Set</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Represent numbers as strings in binary and create an efficient data
+    structure for storing them.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    Step one - represent each number as a binary number. 13 = “1101”. Even
+    better, make sure that all numbers are 32 bits long, 13 = “0000….00001101”
+    <br />
+    Step two - store number in rooted binary tree. Root is “” (aka 0), left
+    child of “X” is “X0”, right child is “X1”. (numerically the children of $x$
+    are $2x$ and $2x+1$). In such a tree you can easily store how many times we
+    have “X” in the set. <br />
+    This structure is called Trie (this one uses alphabet {“0”, “1”}) <br />
+    Step three - to find largest $c$ you just traverse the tree from root and
+    either you have only one child or you greedily pick the child which
+    maximizes $c$.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$ or $O(n \times \text{size\_of\_int})$ if we want to be more precise.
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-words: Word prefixes</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Same as <code>dc-xorset</code> but with full alphabet.
+  </details>
+  <details class="hint">
+    <summary>Solution 1</summary>
+    Use Trie - rooted tree structure, where root represents “” (empty string)
+    and each node X has 26 children for all the characters, representing {X+c
+    for all c in alphabet}.
+  </details>
+  <details class="hint">
+    <summary>Solution 2</summary>
+    Don't do this one, do solution 1, but if you are curious this problem is
+    solvable by hashing.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(w)$, where $w$ is the total length of all strings on the input.
+  </details>
+</details>
+
+<h2>Day 3</h2>
+
+<details class="hint-group">
+  <summary>dc-hunger: Hunger</summary>
+  <details class="hint">
+    <summary>Solution using DP</summary>
+    You want to compute $D[i] = \text{how much food can I eat, if I can only
+    choose from the first } i \text{ courses}$. You can calculate this for each
+    $i\in \{0..n\}$ step by step. $D[n]$ is your answer. <br />
+    This technique is called Dynamic Programming.
+  </details>
+  <details class="hint">
+    <summary>Solution with Recursion</summary>
+    Implement $F(n) = \text{how much food can I eat, if I consider only the
+    first } n \text{ courses}$. You can use $F(i), i < n$ to calculate the
+    result fast. <br />
+    The main point is to memoize (cache) results of each call, so you only
+    calculate each $F(n)$ once. This technique is often called Recursion with
+    memoization.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-bookstack: Book stack</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Implement your own data structure that supports operations,
+    <code>push</code>, <code>pop</code>, <code>reverse_k</code>. <br />
+  </details>
+  <details class="hint">
+    <summary>Implementation hint</summary>
+    <br />
+    Painful way - implement it using a linked list; for each element remember
+    the <code>prev</code> and <code>next</code>. <br />
+    Convenient way - implement it using <code>deque</code> (from stdlib).
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(k)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-coins: Coins</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Dynamic programming or recursion with memoization again, similar to Hunger,
+    but harder. Choose a good subproblem what $D[..]$ or $F(..)$ can you have,
+    so that you can easily calculate the given value using previously calculated
+    values?
+  </details>
+  <details class="hint">
+    <summary>Time complexity (partially spoils solution)</summary>
+    $O(n \cdot s)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-buymilk: Buying Milk</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    $2^{40}$ is too much, but $2^{20}$ is just right enough.
+  </details>
+  <details class="hint">
+    <summary>Time complexity (partially spoils solution)</summary>
+    $O(2^{n/2})$, the slower $O(n \times 2^{n/2})$ will probably not get full
+    points.
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-lis: Longest Subsequence</summary>
+  <details class="hint">
+    <summary>Weak hint</summary>
+    Dynamic programming with a trick
+  </details>
+  <details class="hint">
+    <summary>Stronger hint</summary>
+    Dynamic programming with a binary search
+  </details>
+  <details class="hint">
+    <summary>Solution 1</summary>
+    Maintain $D[x] = \text{lowest possible last element of subsequence of length
+    } x$. Update $D[x]$ array as you go through input. To update the array
+    efficiently you need binary search or sorted set.
+  </details>
+  <details class="hint">
+    <summary>Solution 2, harder</summary>
+    Maintain $D[x] = \text{lowest possible length of subsequence ending with }
+    x$. Update $D[x]$ array as you go through input. To update the array
+    efficiently you need minimum-interval-tree data structure.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n \log n)$ both solutions.
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-hospitall: Tall people in the Hospital</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Try to maintain two structures: <br />
+    One with fast operations <code>push(x)</code>, <code>pop_smallest()</code>
+    <br />
+    Second with fast operations <code>push(x)</code>,
+    <code>pop_largest()</code> <br />
+  </details>
+  <details class="hint">
+    <summary>Another hint</summary>
+    Example structure that supports this is called Heap (you can implement your
+    own, or find it in stdlib, see
+    <code>heapq</code>). If you seek a challenge, don't use existing
+    <code>heapq</code>, rather implement your own heap.
+  </details>
+  <details class="hint">
+    <summary>Another hint</summary>
+    Maintain <code>len(heap1) ~ len(heap2)</code> so
+    <code>heap1.smallest()</code> will be the median. <br />
+  </details>
+  <details class="hint">
+    <summary>Useful trick</summary>
+    The regular <code>heappq</code> is a Min Heap, i.e. it keeps the smallest
+    element at the top. If you want a Max Heap, just insert negative numbers.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n \log n)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-platforms: Platforms</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    This one requires you to implement your own data structure that is not
+    present in stdlib. There are orthogonal approaches you can take. For each
+    solution, the "Idea" hint explains what kind of structure you need and how
+    to use it. The "Data structure" hint helps you to implement the structure.
+  </details>
+  <details class="hint">
+    <summary>Solution 1 - Idea</summary>
+    First, you need to make the world more compact. Note that if you change $x$
+    values from $(4, -5, -10, 7, 4)$ to $(2, 1, 0, 3, 2)$ it won't change the
+    answer. The transformation of coordinates to $\{0..n\}$ while preserving the
+    order, is usually called Compacting the coordinates.
+    <p>
+      Implement a data structure that supports the following operations in
+      $O(\log n)$ time:
+    </p>
+    <ul>
+      <li><code>init</code> - initialise heights $H[0..n] = 0$</li>
+      <li><code>get(x)</code> - tell me the current height $H[x]$</li>
+      <li><code>set(a, b, x)</code> - set heights from $H[a..b] = x$.</li>
+    </ul>
+    <p>
+      With this structure, you can solve the whole problem in $O(n \log n)$, it
+      is important to process all platforms in the correct order.
+    </p>
+  </details>
+  <details class="hint">
+    <summary>Solution 1 - Data structure</summary>
+    The desired data structure is called Interval-Tree, though here we need a
+    little special version of it. We will build a complete binary tree with one
+    root $k$ levels and $2^k$ leaves, so that $2^k > n$. The root "represents"
+    the whole interval $[0..2^k)$. For each vertex the two children "represent"
+    the first half of vertex's interval and the second half. The leaves
+    "represent" intervals of length one.
+    <p>
+      For each vertex we can store platform-height for all elements "under it",
+      as long as all these elements have the same height. When adding new
+      platform, we only need to update $O(\log n)$ vertices.
+    </p>
+    <p>
+      When implementing, it is best to store the tree in list of length
+      $2^{k+1}$, root being in $T[1]$ and children of $T[x]$ being $T[2x]$ and
+      $T[2x+1]$.
+    </p>
+  </details>
+  <details class="hint">
+    <summary>Solution 2 - Idea</summary>
+    Unlike in the Idea 1, this one doesn't need compacting of the coordinates
+    (yay).
+    <p>
+      In this version, we generate all events $(\text{"start"}, x, y)$,
+      $(\text{"end"}, x, y)$ and process these events from left to right
+      ("start"s from bottom to top, "end"s from top to bottom). To simplify code
+      we can represent starts as $(x, y)$; ends as $(x, -y)$ and sort these as
+      tuples.
+    </p>
+    <p>
+      To solve the task, we will iterate through sorted events and we will need
+      a data structure that supports the following operations in $O(\log n)$
+      time:
+    </p>
+    <ul>
+      <li><code>insert(x)</code> - add $x$ into the set</li>
+      <li><code>delete(x)</code> - remove $x$ from the set</li>
+      <li>
+        <code>find_lower(x)</code> - find the largest value currently in the
+        set, that is smaller than $x$.
+      </li>
+    </ul>
+    <p>With this structure the task would not be hard at all, right?</p>
+  </details>
+  <details class="hint">
+    <summary>Solution 2 - Data structure</summary>
+    We could call the structure we need Sorted Set. There are plenty of ways of
+    implementing this, see
+    <a
+      href="https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree#Implementations"
+      >this</a
+    >, or
+    <a
+      href="https://en.wikipedia.org/wiki/Binary_search_tree#Balanced_binary_search_trees"
+      >this</a
+    >
+    or <a href="https://en.wikipedia.org/wiki/Skip_list">this</a>. <br />
+    Each implementation has its own advantages / disadvantages, main focus is
+    often:
+    <ul>
+      <li>Performance - Red-Black tree in C++::stdlib</li>
+      <li>Performance when cache miss is expensive - BTree</li>
+      <li>
+        Fast in Python (where everything but lists is slow) -
+        <a
+          href="https://grantjenks.com/docs/sortedcontainers/implementation.html"
+          >this</a
+        >
+      </li>
+      <li>
+        Easy to implement -
+        <a href="https://en.wikipedia.org/wiki/Treap">Treap</a> or
+        <a href="https://en.wikipedia.org/wiki/Splay_tree">Splay tree</a>
+      </li>
+    </ul>
+    <h5>Using existing implementations</h5>
+    <p>
+      Most of the time you don't want to implement your own, because of
+      "performance", "easy to implement" tradeoff. In Python, I recommend
+      <a href="https://grantjenks.com/docs/sortedcontainers/"
+        >sortedcontainers library</a
+      >. If we had the <code>SortedList</code> structure, the task would be
+      quite easy.
+    </p>
+    <p>
+      Unfortunately sortedcontainers is not in Python::stdlib, so we cannot
+      import it here. Easiest hacky solution is to just copy-paste source code
+      of <code>SortedList</code> to the beginning of your submitted solution.
+    </p>
+    <p>
+      In real life you just run <code>poetry add sortedcontainers</code> and
+      you're done.
+    </p>
+    <h5>Implementing your own</h5>
+    Sometimes the existing implementation doesn't support operations you need,
+    or it doesn't have some specific properties. When you really need to
+    implement your own, I highly recommend implementing Merge-Split Treap:
+    <ul>
+      <li>Very easy to implement (once you learn how it works)</li>
+      <li>
+        Easy to customize and add operations that are not supported by existing
+        structures
+      </li>
+      <li>Very easy to make persistent/immutable</li>
+      <li>Reasonably fast in reasonable programming languages</li>
+    </ul>
+    <a href="https://cp-algorithms.com/data_structures/treap.html">This</a> or
+    <a href="https://usaco.guide/adv/treaps?lang=py">this</a>
+    tutorial may help you. Sad thing is that the "nice" implementation in Python
+    is slow (still $O(\log n)$ for operations, but large constant factor.) The
+    most straightforward implementation will probably give you only ~90% points.
+    It is possible to implement it the "ugly" way and then it passes within the
+    <code>dc-platforms</code> time limit. But even this ugly implementation
+    solves this task $2$ times slower than SortedList. All implementations will
+    be available under "Reference Solutions" in problem statement, when you
+    solve the task.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n \log n)$
+  </details>
+</details>
