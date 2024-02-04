@@ -81,6 +81,8 @@ class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     search_fields = ("user__username", "user__first_name", "user__last_name")
     actions = [export_as_zip]
     list_max_show_all = 2000
+    #list_filter = ("receiver__task__slug", "is_public")
+    hack_list_filter = ('receiver__id', "is_public")
 
     def submit_id(self, submit):
         return "submit %d" % (submit.id,)
@@ -94,18 +96,11 @@ class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
         return review.display_score() if review is not None else ""
 
     def get_search_results(self, request, queryset, search_term):
-        queryset, use_distinct = super(SubmitAdmin, self).get_search_results(
-            request, queryset, search_term
-        )
-        try:
-            search_term_as_receiver_ids = Task.objects.filter(
-                slug__icontains=search_term
-            ).values_list("submit_receivers__id", flat=True)
-            queryset |= self.model.objects.filter(
-                receiver_id__in=search_term_as_receiver_ids
-            )
-        except:
-            pass
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        for key in self.hack_list_filter:   
+            value = request.GET.get(key)
+            if value:
+                queryset = queryset.filter(**{key: value})
         return queryset, use_distinct
 
 

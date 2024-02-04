@@ -60,12 +60,14 @@ def public_submit_list(receiver, submit_id=None):
 
     last_review_for_each_submit = (
         Review.objects.filter(submit__receiver=receiver, submit__is_public=True)
-        .exclude(submit__id=submit_id)
+        #.exclude(submit__id=submit_id)
         .order_by("-submit__pk", "-time", "-pk")
         .distinct("submit__pk")
         .select_related("submit")
     )
     submits = [(review.submit, review) for review in last_review_for_each_submit]
+    # "~~~" is quite late in alphabet
+    submits.sort(key=lambda tup: (-tup[1].score or 0, tup[0].reference_name or "~~~"))
 
     data = {
         "variant": "task" if submit_id is None else ("some" if len(submits) else "empty"),

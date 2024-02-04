@@ -75,6 +75,7 @@ def task_statement(request, task_slug):
 
     template_data = {
         "task": task,
+        "user_has_admin_privileges": request.user.is_staff,
         "user_task_points": user_task_points,
         "user_points": user_task_points[request.user.pk][task.pk] or 0,
         "statement": import_string(settings.TASK_STATEMENTS_BACKEND)().render_statement(
