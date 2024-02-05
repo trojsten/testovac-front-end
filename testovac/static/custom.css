@@ -23,7 +23,7 @@ a.navbar-brand{
 
 .navbar-static-top{
     margin-bottom: 0;
-    background-color: #444;
+    background-color: #e8ab00;
 }
 
 /* Page header */
@@ -35,7 +35,7 @@ li>h2{ margin-top: 0; }
 .page-header{
     margin: 0px 0 20px;
     padding-top: 40px;
-    border-bottom: 1px dotted #444;
+    border-bottom: 1px dotted #e8ab00;
 }
 
 
@@ -83,7 +83,7 @@ li>h2{ margin-top: 0; }
     bottom: 0;
     width: 100%;
     height: 60px;
-    background-color: #444;
+    background-color: #e8ab00;
     border-top: 1px solid #ccc;
 }
 
