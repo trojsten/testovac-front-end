@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/app     
+      - ./mock_submits:/testovac/submit 
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=True
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  db:
+    image: postgres:12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=testovac
+      - POSTGRES_USER=testovac
+      - POSTGRES_PASSWORD=v_env_aj_dc_ma_byt_rovnake_heslo
+
+volumes:
+  postgres_data:
