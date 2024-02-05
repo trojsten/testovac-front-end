@@ -2,6 +2,7 @@ import os
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.core.files.base import ContentFile
 
 from testovac.submit import constants
 from testovac.submit import settings as submit_settings
@@ -29,48 +30,23 @@ class FileSubmitForm(forms.Form):
                 ]
             ]
             self.fields["language"] = forms.ChoiceField(
-                label=_("Language"), choices=automatic + self.languages, required=True
+                initial='.py', label=_("Language"), choices=automatic + self.languages, required=True, widget=forms.HiddenInput()
             )
 
     submit_file = forms.FileField(
         max_length=submit_settings.SUBMIT_UPLOADED_FILENAME_MAXLENGTH,
         allow_empty_file=True,
+        required=False,
+        widget=forms.HiddenInput()
     )
 
-    def clean_submit_file(self):
-        sfile = self.cleaned_data.get("submit_file", None)
-        if sfile:
-            extension = os.path.splitext(sfile.name)[1].lower()
-            if self.extensions is not None and extension not in self.extensions:
-                raise forms.ValidationError(
-                    _("Invalid file extension %(extension)s"),
-                    code="invalid extension",
-                    params={"extension": extension},
-                )
-            return sfile
-        else:
-            raise forms.ValidationError(_("No file was submitted"), code="no file")
+    python_code = forms.CharField(
+        widget=forms.Textarea, label=_("Python Code"), required=True
+    )
 
     def clean(self):
-        if (
-            "submit_file" in self.cleaned_data
-            and "language" in self.cleaned_data
-            and self.languages is not None
-        ):
-            filename = self.cleaned_data["submit_file"].name
-            language = self.cleaned_data["language"]
-            allowed_languages = map(lambda choice: choice[0], self.languages)
+        cleaned_data = super().clean()
 
-            try:
-                self.cleaned_data[
-                    "submit_file"
-                ].name = add_language_preference_to_filename(
-                    filename, language, allowed_languages
-                )
-            except Exception:
-                raise forms.ValidationError(
-                    _(
-                        "Automatic language discovery failed. Unknown language extension."
-                    ),
-                    code="invalid language",
-                )
+        python_code = cleaned_data.get('python_code')
+        cleaned_data['submit_file'] = ContentFile(python_code.encode('utf-8'))
+        cleaned_data['submit_file'].name = 'submit.py'

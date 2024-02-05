@@ -73,7 +73,7 @@ class PostSubmitForm(View):
                 user=request.user,
                 receiver=receiver,
                 is_accepted_method=self.is_submit_accepted,
-                sfile=request.FILES["submit_file"],
+                sfile=form.cleaned_data["submit_file"],
             )
         else:
             for field in form:
