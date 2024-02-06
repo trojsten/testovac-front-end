@@ -10,10 +10,8 @@
         <li class="pull-left">
             <h1>{% trans 'Tasks' %}</h1>
         </li>
-
         <li class="pull-right">
             <div class="btn-group">
-                <button class="btn btn-default btn-sm" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false">Show All Problems</button>
                 {% if hide_finished %}
                     <a href="?hide_finished=False" class="btn btn-default btn-sm">
                         {% trans 'Show finished' %}
@@ -45,9 +43,11 @@
                 <h3>
                     {{ contest.name }}
                     {% if contest.is_running %}
-                        <span class="label label-success pull-right">{% trans 'Active' %}</span>
+                        <span class="label label-success pull-right">
+                            <a class="hidden-btn" href="{% url 'contest_results' contest.pk %}">{% trans 'Active' %}</a>
+                        </span>
                     {% elif not contest.has_started %}
-                        <span class="label label-info pull-right">{% trans 'New contest' %}</span>
+                        <span class="label label-info pull-right"><span class="hidden-btn">{% trans 'New contest' %}</span></span>
                     {% endif %}
                 </h3>
 
@@ -80,22 +80,15 @@
                 {% endif %}
 
                 {% if user.is_staff or contest.has_started %}
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ contest.slug }}-tasklist" aria-expanded="false" aria-controls="{{ contest.slug }}-tasklist">
-                        Show problems
-                    </button>
-
-                    <div class="collapse multi-collapse" id="{{ contest.slug }}-tasklist">
-                        <div class="list-group" >
-                            {% for task in contest.task_set.all %}
-                                {% if not task in completed_tasks %}
-                                    <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
-                                        {{ forloop.counter }}. {{task.name}}
-                                        <span class="pull-right">{% completed_status task user user_task_points %}</span>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                            <a class="btn btn-primary" href="{% url 'contest_results' contest.pk %}">{% trans 'Results' %}</a>
-                        </div>
+                    <div class="list-group" >
+                        {% for task in contest.task_set.all %}
+                            {% if not task in completed_tasks %}
+                                <a class="list-group-item contest-list-task" href="{% url 'task_statement' task.pk %}">
+                                    {{ forloop.counter }}. {{task.name}}
+                                    <span class="pull-right">{% completed_status task user user_task_points %}</span>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 {% endif %}
             {% endif %}
