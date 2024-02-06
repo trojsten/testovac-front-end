@@ -102,14 +102,33 @@
 </details>
 
 <details class="hint-group">
-  <summary>dc-power: Exponentiation</summary>
+  <summary>dc-xorset: Xor on a Set</summary>
   <details class="hint">
     <summary>Hint</summary>
-    $2^{100} = (2^{50})^2$
+    Represent numbers as strings in binary and create an efficient data
+    structure for storing them.
   </details>
   <details class="hint">
-    <summary>Time complexity (with SPOILER)</summary>
-    $O(n \log(\max(b_i)))$
+    <summary>Hint (WA)</summary>
+    If you are getting Wrong Answer, maybe you forgot that $0$ is in the set.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    Step one - represent each number as a binary number. 13 = “1101”. Even
+    better, make sure that all numbers are 30 bits long, 13 = “0000….00001101”
+    <br />
+    Step two - store number in rooted binary tree. Root is “” (aka 0), left
+    child of “X” is “X0”, right child is “X1”. (numerically the children of $x$
+    are $2x$ and $2x+1$). In such a tree you can easily store how many times we
+    have “X” in the set. <br />
+    This structure is called Trie (this one uses alphabet {“0”, “1”}) <br />
+    Step three - to find largest $c$ you just traverse the tree from root and
+    either you have only one child or you greedily pick the child which
+    maximizes $c$.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n)$ or $O(n \times \text{size\_of\_int})$ if we want to be more precise.
   </details>
 </details>
 
@@ -156,110 +175,6 @@
 </details>
 
 <details class="hint-group">
-  <summary>dc-hedgehog: Picture Puzzle</summary>
-  <details class="hint">
-    <summary>Hint</summary>
-    Binary search
-  </details>
-  <details class="hint">
-    <summary>Time complexity</summary>
-    $O(k \log n)$
-  </details>
-</details>
-
-<details class="hint-group">
-  <summary>dc-components: Number of Components</summary>
-  <details class="hint">
-    <summary>Hint</summary>
-    Do you remember ms-paint? There was this paint bucket tool, that allowed you
-    to fill neighbouring areas.
-  </details>
-  <details class="hint">
-    <summary>Solution</summary>
-    DFS - when colouring any vertex, also colour its uncoloured neighbours.
-    Number of components is the number of different colours you used. <br />
-    Also don't forget about <code>sys.setrecursionlimit(1_000_000)</code>.
-  </details>
-  <details class="hint">
-    <summary>Time complexity</summary>
-    $O(n + m)$
-  </details>
-</details>
-
-<details class="hint-group">
-  <summary>dc-labyrinth: Maze</summary>
-  <details class="hint">
-    <summary>Strong-ish hint</summary>
-    Do you remember ms-paint? There was this paint bucket tool, that allowed you
-    to fill neighbouring areas. Try to simulate the filling over time. First
-    color the start, then color it's neighbours, then neighbours of neighbours.
-    Distance to vertex $x$ is the time when the paint reaches $x$.
-  </details>
-  <details class="hint">
-    <summary>Solution</summary>
-    BFS - maintain a FIFO queue of soon to be processed vertices. Always take
-    the first element from the queue and put its unvisited neighbours to the end
-    of the queue.
-  </details>
-  <details class="hint">
-    <summary>Time complexity</summary>
-    $O(r \cdot s)$
-  </details>
-</details>
-
-<details class="hint-group">
-  <summary>dc-xorset: Xor on a Set</summary>
-  <details class="hint">
-    <summary>Hint</summary>
-    Represent numbers as strings in binary and create an efficient data
-    structure for storing them.
-  </details>
-  <details class="hint">
-    <summary>Solution</summary>
-    Step one - represent each number as a binary number. 13 = “1101”. Even
-    better, make sure that all numbers are 32 bits long, 13 = “0000….00001101”
-    <br />
-    Step two - store number in rooted binary tree. Root is “” (aka 0), left
-    child of “X” is “X0”, right child is “X1”. (numerically the children of $x$
-    are $2x$ and $2x+1$). In such a tree you can easily store how many times we
-    have “X” in the set. <br />
-    This structure is called Trie (this one uses alphabet {“0”, “1”}) <br />
-    Step three - to find largest $c$ you just traverse the tree from root and
-    either you have only one child or you greedily pick the child which
-    maximizes $c$.
-  </details>
-  <details class="hint">
-    <summary>Time complexity</summary>
-    $O(n)$ or $O(n \times \text{size\_of\_int})$ if we want to be more precise.
-  </details>
-</details>
-
-<details class="hint-group">
-  <summary>dc-words: Word prefixes</summary>
-  <details class="hint">
-    <summary>Hint</summary>
-    Same as <code>dc-xorset</code> but with full alphabet.
-  </details>
-  <details class="hint">
-    <summary>Solution 1</summary>
-    Use Trie - rooted tree structure, where root represents “” (empty string)
-    and each node X has 26 children for all the characters, representing {X+c
-    for all c in alphabet}.
-  </details>
-  <details class="hint">
-    <summary>Solution 2</summary>
-    Don't do this one, do solution 1, but if you are curious this problem is
-    solvable by hashing.
-  </details>
-  <details class="hint">
-    <summary>Time complexity</summary>
-    $O(w)$, where $w$ is the total length of all strings on the input.
-  </details>
-</details>
-
-<h2>Day 3</h2>
-
-<details class="hint-group">
   <summary>dc-hunger: Hunger</summary>
   <details class="hint">
     <summary>Solution using DP</summary>
@@ -300,6 +215,95 @@
   <details class="hint">
     <summary>Time complexity</summary>
     $O(k)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-components: Number of Components</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Do you remember ms-paint? There was this paint bucket tool, that allowed you
+    to fill neighbouring areas.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    DFS - when colouring any vertex, also colour its uncoloured neighbours.
+    Number of components is the number of different colours you used. <br />
+    Also don't forget about <code>sys.setrecursionlimit(1_000_000)</code>.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(n + m)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-labyrinth: Maze</summary>
+  <details class="hint">
+    <summary>Strong-ish hint</summary>
+    Do you remember ms-paint? There was this paint bucket tool, that allowed you
+    to fill neighbouring areas. Try to simulate the filling over time. First
+    color the start, then color it's neighbours, then neighbours of neighbours.
+    Distance to vertex $x$ is the time when the paint reaches $x$.
+  </details>
+  <details class="hint">
+    <summary>Solution</summary>
+    BFS - maintain a FIFO queue of soon to be processed vertices. Always take
+    the first element from the queue and put its unvisited neighbours to the end
+    of the queue.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(r \cdot c)$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-words: Word prefixes</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Same as <code>dc-xorset</code> but with full alphabet.
+  </details>
+  <details class="hint">
+    <summary>Solution 1</summary>
+    Use Trie - rooted tree structure, where root represents “” (empty string)
+    and each node X has 26 children for all the characters, representing {X+c
+    for all c in alphabet}.
+  </details>
+  <details class="hint">
+    <summary>Solution 2</summary>
+    Don't do this one, do solution 1, but if you are curious this problem is
+    solvable by hashing.
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(w)$, where $w$ is the total length of all strings on the input.
+  </details>
+</details>
+
+<h2>Day 3</h2>
+
+<details class="hint-group">
+  <summary>dc-power: Exponentiation</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    $2^{100} = (2^{50})^2$
+  </details>
+  <details class="hint">
+    <summary>Time complexity (with SPOILER)</summary>
+    $O(n \log(\max(b_i)))$
+  </details>
+</details>
+
+<details class="hint-group">
+  <summary>dc-hedgehog: Picture Puzzle</summary>
+  <details class="hint">
+    <summary>Hint</summary>
+    Binary search
+  </details>
+  <details class="hint">
+    <summary>Time complexity</summary>
+    $O(k \log n)$
   </details>
 </details>
 
