@@ -113,6 +113,8 @@ DATABASES = {
         "NAME": env("TESTOVAC_FRONT_DATABASE_NAME", "testovacfront"),
         "USER": env("TESTOVAC_FRONT_DATABASE_USER", "testovacfront"),
         "PASSWORD": env("TESTOVAC_FRONT_DATABASE_PASSWORD", ""),
+        "HOST": env("SQL_HOST", "localhost"),
+        "PORT": env("SQL_PORT", "5432"),
     },
 }
 

@@ -12,9 +12,12 @@ def requiredenv(name):
         )
     return os.environ.get(name)
 
+SENDFILE_BACKEND = 'sendfile.backends.nginx'
+SENDFILE_ROOT = '/home/app/web/'
+SENDFILE_URL = '/protected-files'
+
 
 DEBUG = False
 SECRET_KEY = requiredenv("TESTOVAC_FRONT_SECRET_KEY")
-ALLOWED_HOSTS = requiredenv("TESTOVAC_FRONT_ALLOWED_HOSTS").split(";")
+ALLOWED_HOSTS = requiredenv("TESTOVAC_FRONT_ALLOWED_HOSTS").split(" ")
 
-SENDFILE_BACKEND = "sendfile.backends.xsendfile"

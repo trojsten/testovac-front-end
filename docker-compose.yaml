@@ -1,0 +1,43 @@
+services:
+  web:
+    build: ./
+    command:  gunicorn testovac.wsgi:application --access-logfile - --error-logfile - --log-level debug --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/media
+      - submits_volume:/home/app/web/submit
+      - statements_volume:/home/app/web/statements
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - ./dump20221009.psql:/dump.psql
+    environment:
+      - POSTGRES_USER=testovac
+      - POSTGRES_PASSWORD=testovac
+      - POSTGRES_DB=testovac
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/media
+      - submits_volume:/home/app/web/submit
+      - statements_volume:/home/app/web/statements
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  submits_volume:
+  statements_volume:
