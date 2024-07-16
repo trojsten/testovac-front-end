@@ -23,7 +23,7 @@ def static_menu_items(request):
         {
             "url_regex": r"^/results",
             "text": _("Results"),
-            "link": "%s?group=ls_2022_zaciatocnici" % reverse("results_index"),
+            "link": "%s" % reverse("results_index"),
         },
         {
             "url_regex": r"^/achievements",

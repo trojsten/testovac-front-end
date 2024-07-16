@@ -24,9 +24,10 @@ class ResultsGenerator(object):
             2,
         )
 
-    def __init__(self, users, task_list):
+    def __init__(self, users, task_list, time_range):
         self.users = users
         self.task_list = task_list
+        self.time_range = time_range  # tuple[datetime | None, datetime | None]
 
     def reviews_to_final_points(self, receiver_reviews, task):
         """
@@ -81,7 +82,13 @@ class ResultsGenerator(object):
                     Submit.ACCEPTED_WITH_PENALIZATION,
                 ]
             )
-            .order_by("submit__pk", "-time", "-pk")
+        )
+        if self.time_range[0] is not None:
+            reviews = reviews.filter(time__gte=self.time_range[0])
+        if self.time_range[1] is not None:
+            reviews = reviews.filter(time__lte=self.time_range[1])
+        reviews = (
+            reviews.order_by("submit__pk", "-time", "-pk")
             .distinct("submit__pk")
             .select_related("submit__user", "submit__receiver")
         )

@@ -16,6 +16,8 @@ class CustomResultsTable(models.Model):
     name = models.CharField(max_length=128)
     number = models.IntegerField()
     contests = SortedManyToManyField(Contest)
+    start_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name = _("custom results table")

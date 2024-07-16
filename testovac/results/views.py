@@ -49,7 +49,9 @@ def contest_results(request, contest_slug, group=None):
         "results/contest_results_table.html",
         {
             "contest": contest,
-            "task_list": [task for task in contest.task_set.all()],
+            "task_list": list(contest.task_set.all()),
             "group": group,
+            "start_time": contest.start_time,
+            "end_time": contest.end_time,
         },
     )
