@@ -3,7 +3,7 @@ services:
     build: ./
     command:  gunicorn testovac.wsgi:application --access-logfile - --error-logfile - --log-level debug --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
       - submits_volume:/home/app/web/submit
       - statements_volume:/home/app/web/statements
@@ -26,7 +26,7 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_volume:/home/app/web/staticfiles
+      - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
       - submits_volume:/home/app/web/submit
       - statements_volume:/home/app/web/statements
