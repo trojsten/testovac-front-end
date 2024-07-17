@@ -10,11 +10,11 @@ register = template.Library()
 
 def static_menu_items(request):
     items = [
-        {
-            "url_regex": r"^/news",
-            "text": _("News"),
-            "link": reverse("news_list", kwargs={"page": 1}),
-        },
+        # {
+        #     "url_regex": r"^/news",
+        #     "text": _("News"),
+        #     "link": reverse("news_list", kwargs={"page": 1}),
+        # },
         {
             "url_regex": r"^/tasks",
             "text": _("Tasks"),

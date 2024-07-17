@@ -66,7 +66,7 @@ INSTALLED_APPS = (
     "wiki.plugins.notifications",
     "wiki.plugins.images",
     "wiki.plugins.macros",
-    "news",
+    # "news",
     "testovac.achievements",
 )
 

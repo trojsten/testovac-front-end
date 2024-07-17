@@ -1,4 +1,3 @@
-import news.urls
 from django.conf import settings
 from django.urls import include, re_path
 from django.contrib import admin
@@ -29,7 +28,7 @@ urlpatterns = [
     re_path(r"^admin/", admin.site.urls),
     re_path(r"^tasks/", include(testovac.tasks.urls)),
     re_path(r"^submit/", include(testovac.submit.urls)),
-    re_path(r"^news/", include(news.urls)),
+    # re_path(r"^news/", include(news.urls)),
     re_path(r"^results/", include(testovac.results.urls)),
     re_path(r"^login/", include(testovac.login.urls)),
     re_path(r"^achievements/", include(testovac.achievements.urls)),
