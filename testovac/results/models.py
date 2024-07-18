@@ -30,15 +30,15 @@ class CustomResultsTable(models.Model):
         for contest in self.contests.all():
             if contest.tasks_visible_for_user(user):
                 for task in contest.task_set.all():
-                    task.start_time = (
-                        contest.start_time
-                        if self.honor_contest_timeranges
-                        else self.start_time
+                    task.start_time = min(
+                        self.start_time,
+                        contest.start_time if self.honor_contest_timeranges else None,
+                        key=lambda x: (x is None, x),
                     )
-                    task.end_time = (
-                        contest.end_time
-                        if self.honor_contest_timeranges
-                        else self.end_time
+                    task.end_time = max(
+                        self.end_time,
+                        contest.end_time if self.honor_contest_timeranges else None,
+                        key=lambda x: (x is not None, x),
                     )
                     tasks.append(task)
         return tasks
