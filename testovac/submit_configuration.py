@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.utils.html import format_html
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from testovac.results.generator import ResultsGenerator, display_points
 from testovac.submit.defaults import submit_receiver_type

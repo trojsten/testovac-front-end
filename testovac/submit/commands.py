@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .judge_helpers import JudgeConnectionError, create_review_and_send_to_judge
 from .models import Submit, SubmitReceiver
