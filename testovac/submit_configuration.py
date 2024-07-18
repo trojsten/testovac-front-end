@@ -32,7 +32,7 @@ class PostSubmitFormCustomized(PostSubmitForm):
             return message
         else:
             return format_html(
-                u"{message}<br />{comment}",
+                "{message}<br />{comment}",
                 message=message,
                 comment=_(
                     "Contest has already finished, this submit won't affect the results."

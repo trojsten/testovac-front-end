@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.urls import include, re_path
 from django.contrib import admin
 from django.http import HttpResponseRedirect
+from django.urls import include, re_path
 from django.views.static import serve
 from django_nyt.urls import get_pattern as get_nyt_pattern
 from wiki.urls import get_pattern as get_wiki_pattern
@@ -16,7 +16,9 @@ from testovac.admin import admin_site_custom_index_view
 
 def create_custom_admin_urls(urls):
     def get_admin_urls():
-        return [re_path(r"^$", admin.site.admin_view(admin_site_custom_index_view))] + urls
+        return [
+            re_path(r"^$", admin.site.admin_view(admin_site_custom_index_view))
+        ] + urls
 
     return get_admin_urls
 

@@ -19,7 +19,7 @@ def add_form_errors_to_messages(request, form):
     for field in form:
         for error in field.errors:
             messages.add_message(
-                request, messages.ERROR, u"%s: %s" % (field.label, error)
+                request, messages.ERROR, "%s: %s" % (field.label, error)
             )
     for error in form.non_field_errors():
         messages.add_message(request, messages.ERROR, error)
@@ -39,9 +39,10 @@ def login(request):
 
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-
             # Ensure the user-originating redirection url is safe.
-            if not url_has_allowed_host_and_scheme(url=success_redirect, allowed_hosts={request.get_host()}):
+            if not url_has_allowed_host_and_scheme(
+                url=success_redirect, allowed_hosts={request.get_host()}
+            ):
                 return HttpResponseRedirect(problem_redirect)
 
             # Okay, security check complete. Log the user in.

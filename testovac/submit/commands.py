@@ -56,7 +56,7 @@ def rejudge_receiver_submits(request, receiver_id):
         messages.add_message(
             request,
             messages.ERROR,
-            u"{}: {}".format(_("Failed submits"), map(str, failed_submits)),
+            "{}: {}".format(_("Failed submits"), map(str, failed_submits)),
         )
     else:
         messages.add_message(request, messages.SUCCESS, _("Everything OK"))

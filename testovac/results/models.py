@@ -22,7 +22,7 @@ class CustomResultsTable(models.Model):
         verbose_name_plural = _("custom results tables")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
     def task_list(self, user):
         tasks = []

@@ -53,7 +53,7 @@ class Contest(models.Model):
         verbose_name_plural = _("contests")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
 
 class TaskManager(models.Manager):
@@ -88,7 +88,7 @@ class Task(models.Model):
         verbose_name_plural = _("tasks")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
 
 class Competition(models.Model):
@@ -139,4 +139,4 @@ class Competition(models.Model):
             return self.contests.filter(visible=True)
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)

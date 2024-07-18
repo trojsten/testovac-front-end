@@ -59,11 +59,17 @@ class AchievementTaskSet(models.Model):
                 .values("submit__receiver__task")
                 .distinct()
                 .count()
-                == len(task_list) and AchievementToUser.objects.filter(achievement=achievementTaskSet.achievement, user=user).count() == 0
+                == len(task_list)
+                and AchievementToUser.objects.filter(
+                    achievement=achievementTaskSet.achievement, user=user
+                ).count()
+                == 0
             ):
-                achievementToUser = AchievementToUser(achievement=achievementTaskSet.achievement, user=user)
+                achievementToUser = AchievementToUser(
+                    achievement=achievementTaskSet.achievement, user=user
+                )
                 achievementToUser.save()
-                #achievementTaskSet.achievement.users.add(user)
+                # achievementTaskSet.achievement.users.add(user)
 
 
 class AchievementToUser(models.Model):
