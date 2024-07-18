@@ -24,10 +24,9 @@ class ResultsGenerator(object):
             2,
         )
 
-    def __init__(self, users, task_list, time_range):
+    def __init__(self, users, task_list):
         self.users = users
         self.task_list = task_list
-        self.time_range = time_range  # tuple[datetime | None, datetime | None]
 
     def reviews_to_final_points(self, receiver_reviews, task):
         """
@@ -82,13 +81,7 @@ class ResultsGenerator(object):
                     Submit.ACCEPTED_WITH_PENALIZATION,
                 ]
             )
-        )
-        if self.time_range[0] is not None:
-            reviews = reviews.filter(time__gte=self.time_range[0])
-        if self.time_range[1] is not None:
-            reviews = reviews.filter(time__lte=self.time_range[1])
-        reviews = (
-            reviews.order_by("submit__pk", "-time", "-pk")
+            .order_by("submit__pk", "-time", "-pk")
             .distinct("submit__pk")
             .select_related("submit__user", "submit__receiver")
         )
@@ -98,11 +91,26 @@ class ResultsGenerator(object):
             for receiver in task.submit_receivers.all():
                 tasks_for_receiver[receiver.pk].append(task)
 
+        pk_to_task = {task.pk: task for task in self.task_list}
+
+        def is_inside_time_range(time, task):
+            start_time = getattr(task, "start_time", None)
+            end_time = getattr(task, "end_time", None)
+            if start_time is not None and time < start_time:
+                return False
+            if end_time is not None and time > end_time:
+                return False
+            return True
+
         user_task_receiver_reviews = defaultdict(
             lambda: defaultdict(lambda: defaultdict(list))
         )
         for review in reviews:
             for task in tasks_for_receiver[review.submit.receiver.pk]:
+                # we do this, because we received modified task object in class constructor
+                timed_task = pk_to_task[task.pk]
+                if not is_inside_time_range(review.submit.time, timed_task):
+                    continue
                 user_task_receiver_reviews[review.submit.user.pk][task.pk][
                     review.submit.receiver.pk
                 ].append(review)

@@ -26,8 +26,7 @@ def contest_list(request):
 
     user_task_points = ResultsGenerator(
         User.objects.filter(pk=request.user.pk),
-        Task.objects.filter(contests__in=visible_contests),
-        (None, None),
+        Task.objects.filter(contests__in=visible_contests)
     ).get_user_task_points()
 
     completed_tasks = []
@@ -71,7 +70,7 @@ def task_statement(request, task_slug):
         raise Http404
 
     user_task_points = ResultsGenerator(
-        User.objects.filter(pk=request.user.pk), (task,), (None, None)
+        User.objects.filter(pk=request.user.pk), (task,)
     ).get_user_task_points()
 
     template_data = {

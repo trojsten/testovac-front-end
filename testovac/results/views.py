@@ -44,14 +44,17 @@ def contest_results(request, contest_slug, group=None):
     if not contest.tasks_visible_for_user(request.user):
         raise Http404
 
+    tasks = list(contest.task_set.all())
+    for task in tasks:
+        task.start_time = contest.start_time
+        task.end_time = contest.end_time
+
     return render(
         request,
         "results/contest_results_table.html",
         {
             "contest": contest,
-            "task_list": list(contest.task_set.all()),
+            "task_list": tasks,
             "group": group,
-            "start_time": contest.start_time,
-            "end_time": contest.end_time,
         },
     )

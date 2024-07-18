@@ -16,7 +16,7 @@ def points_format(points):
 
 
 @register.inclusion_tag("results/parts/results_table.html", takes_context=True)
-def results_table(context, slug, task_list, group, start_time, end_time):
+def results_table(context, slug, task_list, group):
     request = context["request"]
     max_sum = sum(task.max_points for task in task_list)
 
@@ -24,9 +24,7 @@ def results_table(context, slug, task_list, group, start_time, end_time):
     table_data = cache.get(cache_key)
     if table_data is None:
         users = User.objects.filter(groups__name=group) if group else User.objects.all()
-        table_data = ResultsGenerator(
-            users, task_list, (start_time, end_time)
-        ).generate_result_table_context()
+        table_data = ResultsGenerator(users, task_list).generate_result_table_context()
         cache.set(cache_key, table_data)
 
     return {
