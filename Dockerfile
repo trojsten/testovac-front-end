@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.5 as builder
+FROM python:3.12 as builder
 
 # set work directory
 WORKDIR /usr/src/app
@@ -32,7 +32,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 
 # pull official base image
-FROM python:3.5
+FROM python:3.12
 
 # create directory for the app user
 RUN mkdir -p /home/app
@@ -51,7 +51,7 @@ RUN mkdir $APP_HOME/statements
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends netcat
+RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
