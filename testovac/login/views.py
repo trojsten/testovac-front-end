@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -41,7 +41,7 @@ def login(request):
         if form.is_valid():
 
             # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=success_redirect, allowed_hosts=request.get_host()):
+            if not url_has_allowed_host_and_scheme(url=success_redirect, allowed_hosts={request.get_host()}):
                 return HttpResponseRedirect(problem_redirect)
 
             # Okay, security check complete. Log the user in.
