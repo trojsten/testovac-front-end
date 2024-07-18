@@ -1,7 +1,7 @@
 import os
 
 from django.conf import settings as django_settings
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 from django.db import models
 from django.urls import reverse
 from django.utils.module_loading import import_string
