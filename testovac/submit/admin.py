@@ -1,9 +1,10 @@
+import io
+from zipfile import ZipFile
+
 from django import forms
 from django.contrib import admin
-from django.utils.safestring import mark_safe
 from django.http import HttpResponse
-from zipfile import ZipFile
-import io
+from django.utils.safestring import mark_safe
 
 from testovac.submit.models import (
     Review,
@@ -50,19 +51,26 @@ class ReviewInline(admin.StackedInline):
 class ViewOnSiteMixin(object):
     def view_on_site_list_display(self, obj):
         return mark_safe(
-            u'<a href="{}">{}</a>'.format(obj.get_absolute_url(), "view on site")
+            '<a href="{}">{}</a>'.format(obj.get_absolute_url(), "view on site")
         )
 
     view_on_site_list_display.allow_tags = True
-    view_on_site_list_display.short_description = u"View on site"
+    view_on_site_list_display.short_description = "View on site"
+
 
 def export_as_zip(modeladmin, request, queryset):
     zipfile = io.BytesIO()
-    with ZipFile(zipfile,'w') as zf:
+    with ZipFile(zipfile, "w") as zf:
         for submit in queryset:
-            zf.write(submit.file_path(), arcname='{}_{}_{}'.format(submit.id, submit.user.get_full_name(), submit.filename))
+            zf.write(
+                submit.file_path(),
+                arcname="{}_{}_{}".format(
+                    submit.id, submit.user.get_full_name(), submit.filename
+                ),
+            )
     zipfile.seek(0)
     return HttpResponse(zipfile, content_type="application/zip")
+
 
 class SubmitAdmin(ViewOnSiteMixin, admin.ModelAdmin):
     inlines = [ReviewInline]

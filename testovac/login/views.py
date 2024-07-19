@@ -6,8 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.http import is_safe_url
-from django.utils.translation import ugettext_lazy as _
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
@@ -19,7 +19,7 @@ def add_form_errors_to_messages(request, form):
     for field in form:
         for error in field.errors:
             messages.add_message(
-                request, messages.ERROR, u"%s: %s" % (field.label, error)
+                request, messages.ERROR, "%s: %s" % (field.label, error)
             )
     for error in form.non_field_errors():
         messages.add_message(request, messages.ERROR, error)
@@ -39,9 +39,10 @@ def login(request):
 
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-
             # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=success_redirect, allowed_hosts=request.get_host()):
+            if not url_has_allowed_host_and_scheme(
+                url=success_redirect, allowed_hosts={request.get_host()}
+            ):
                 return HttpResponseRedirect(problem_redirect)
 
             # Okay, security check complete. Log the user in.

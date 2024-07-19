@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from testovac.login.views import login, logout, register
 
 urlpatterns = [
-    url(r"^login/$", login, name="login"),
-    url(r"^logout/$", logout, name="logout"),
-    url(r"^register/$", register, name="registration"),
+    re_path(r"^login/$", login, name="login"),
+    re_path(r"^logout/$", logout, name="logout"),
+    re_path(r"^register/$", register, name="registration"),
 ]

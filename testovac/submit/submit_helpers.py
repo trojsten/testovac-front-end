@@ -1,9 +1,9 @@
 import os
 
-from . import constants
 from django.http import Http404
 from sendfile import sendfile
 
+from . import constants
 from . import settings as submit_settings
 from .models import Submit
 
@@ -39,7 +39,7 @@ def write_chunks_to_file(file_path, chunks):
             if isinstance(chunk, bytes):
                 destination.write(chunk)
             else:
-                destination.write(bytes(chunk, 'UTF-8'))
+                destination.write(bytes(chunk, "UTF-8"))
 
 
 def create_submit(user, receiver, is_accepted_method, sfile=None):

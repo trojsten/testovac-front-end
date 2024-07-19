@@ -9,7 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import View
@@ -79,7 +79,7 @@ class PostSubmitForm(View):
             for field in form:
                 for error in field.errors:
                     messages.add_message(
-                        request, messages.ERROR, u"%s: %s" % (field.label, error)
+                        request, messages.ERROR, "%s: %s" % (field.label, error)
                     )
             for error in form.non_field_errors():
                 messages.add_message(request, messages.ERROR, error)
@@ -150,7 +150,9 @@ def view_submit(request, submit_id):
     }
 
     if data["show_submitted_file"]:
-        with open(submit.file_path(), "r", encoding="utf-8", errors='replace') as submitted_file:
+        with open(
+            submit.file_path(), "r", encoding="utf-8", errors="replace"
+        ) as submitted_file:
             data["submitted_file"] = submitted_file.read()
 
     if data["protocol_expected"] and review and review.protocol_exists():

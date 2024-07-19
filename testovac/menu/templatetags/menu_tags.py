@@ -2,7 +2,7 @@ import re
 
 from django import template
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from wiki.models import URLPath
 
 register = template.Library()
@@ -10,11 +10,11 @@ register = template.Library()
 
 def static_menu_items(request):
     items = [
-        {
-            "url_regex": r"^/news",
-            "text": _("News"),
-            "link": reverse("news_list", kwargs={"page": 1}),
-        },
+        # {
+        #     "url_regex": r"^/news",
+        #     "text": _("News"),
+        #     "link": reverse("news_list", kwargs={"page": 1}),
+        # },
         {
             "url_regex": r"^/tasks",
             "text": _("Tasks"),
@@ -23,7 +23,7 @@ def static_menu_items(request):
         {
             "url_regex": r"^/results",
             "text": _("Results"),
-            "link": "%s?group=ls_2022_zaciatocnici" % reverse('results_index'),
+            "link": "%s?group=ls_2022_zaciatocnici" % reverse("results_index"),
         },
         {
             "url_regex": r"^/achievements",

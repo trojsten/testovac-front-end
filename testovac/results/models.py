@@ -1,7 +1,7 @@
 from itertools import chain
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
 
 from testovac.tasks.models import Contest
@@ -22,7 +22,7 @@ class CustomResultsTable(models.Model):
         verbose_name_plural = _("custom results tables")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
     def task_list(self, user):
         tasks = []

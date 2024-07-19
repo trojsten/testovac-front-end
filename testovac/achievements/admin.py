@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from testovac.achievements.models import Achievement, AchievementTaskSet, AchievementToUser
+from testovac.achievements.models import (
+    Achievement,
+    AchievementTaskSet,
+    AchievementToUser,
+)
 
 
 class AchievementAdmin(admin.ModelAdmin):
@@ -13,7 +17,6 @@ class AchievementTaskSetAdmin(admin.ModelAdmin):
     exclude = ("achievement",)
 
     def save_model(self, request, obj, form, change):
-
         self.slug = obj.slug
         if not change:
             obj.achievement = Achievement.objects.create(
@@ -53,8 +56,10 @@ WHERE (
         ):
             achievement.users.add(user)
 
+
 class AchievementToUserAdmin(admin.ModelAdmin):
     list_display = ("created", "user", "achievement")
+
 
 admin.site.register(AchievementTaskSet, AchievementTaskSetAdmin)
 admin.site.register(Achievement, AchievementAdmin)

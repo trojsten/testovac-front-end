@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
 
 def group_apps(app_list, main_app_label, grouped_apps_labels):

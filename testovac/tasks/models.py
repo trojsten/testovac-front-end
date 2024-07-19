@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
 
 from testovac.tasks.utils import default_contest_start_end_time
@@ -53,7 +53,7 @@ class Contest(models.Model):
         verbose_name_plural = _("contests")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
 
 class TaskManager(models.Manager):
@@ -88,7 +88,7 @@ class Task(models.Model):
         verbose_name_plural = _("tasks")
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
 
 
 class Competition(models.Model):
@@ -139,4 +139,4 @@ class Competition(models.Model):
             return self.contests.filter(visible=True)
 
     def __str__(self):
-        return u"{} ({})".format(self.name, self.slug)
+        return "{} ({})".format(self.name, self.slug)
