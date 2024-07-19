@@ -26,7 +26,7 @@ def contest_list(request):
 
     user_task_points = ResultsGenerator(
         User.objects.filter(pk=request.user.pk),
-        Task.objects.filter(contests__in=visible_contests)
+        Task.objects.filter(contests__in=visible_contests),
     ).get_user_task_points()
 
     completed_tasks = []
