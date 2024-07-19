@@ -1,5 +1,3 @@
-from itertools import chain
-
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from sortedm2m.fields import SortedManyToManyField
@@ -16,6 +14,9 @@ class CustomResultsTable(models.Model):
     name = models.CharField(max_length=128)
     number = models.IntegerField()
     contests = SortedManyToManyField(Contest)
+    honor_contest_timeranges = models.BooleanField(default=False)
+    start_time = models.DateTimeField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name = _("custom results table")
@@ -28,5 +29,16 @@ class CustomResultsTable(models.Model):
         tasks = []
         for contest in self.contests.all():
             if contest.tasks_visible_for_user(user):
-                tasks.append(contest.task_set.all())
-        return list(chain(*tasks))
+                for task in contest.task_set.all():
+                    task.start_time = min(
+                        self.start_time,
+                        contest.start_time if self.honor_contest_timeranges else None,
+                        key=lambda x: (x is None, x),
+                    )
+                    task.end_time = max(
+                        self.end_time,
+                        contest.end_time if self.honor_contest_timeranges else None,
+                        key=lambda x: (x is not None, x),
+                    )
+                    tasks.append(task)
+        return tasks

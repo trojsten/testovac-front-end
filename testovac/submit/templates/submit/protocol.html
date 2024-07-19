@@ -1,6 +1,10 @@
 {% load i18n %}
 {% load submit_parts %}
 
+{% if protocol and not protocol.ready %}
+    <meta http-equiv="refresh" content="5">
+{% endif %}
+
 {% if not protocol or not protocol.ready %}
     <div class="alert alert-info">
         <span class="glyphicon glyphicon-refresh glyphicon-animate-rotate"></span>
