@@ -1,0 +1,74 @@
+name: Build and deploy Docker image
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: registry.3sten.sk/testovac
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@3d58c274f17dffee475a5520cbe67f0a882c4dbb
+        with:
+          registry: registry.3sten.sk
+          username: github
+          password: ${{ secrets.DEPLOY_REGISTRY_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81
+        with:
+          images: ${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@eb539f44b153603ccbfbd98e2ab9d4d0dcaf23a4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Extract metadata (tags, labels) for Nginx Docker
+        id: meta_nginx
+        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81
+        with:
+          images: registry.3sten.sk/testovac-nginx
+
+      - name: Build and push Nginx Docker image
+        uses: docker/build-push-action@eb539f44b153603ccbfbd98e2ab9d4d0dcaf23a4
+        with:
+          context: ./nginx
+          push: true
+          tags: ${{ steps.meta_nginx.outputs.tags }}
+          labels: ${{ steps.meta_nginx.outputs.labels }}
+
+      - name: Deploy to production
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ vars.DEPLOY_KEEL_URL }}
+          data: '{"name": "${{ env.IMAGE_NAME }}", "tag": "${{ github.ref_name }}"}'
+          username: keel
+          password: ${{ secrets.DEPLOY_KEEL_PASSWORD }}
+          httpsCA: ${{ vars.DEPLOY_KEEL_CA }}
+
+      - name: Deploy nginx to production
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ vars.DEPLOY_KEEL_URL }}
+          data: '{"name": "registry.3sten.sk/testovac-nginx", "tag": "${{ github.ref_name }}"}'
+          username: keel
+          password: ${{ secrets.DEPLOY_KEEL_PASSWORD }}
+          httpsCA: ${{ vars.DEPLOY_KEEL_CA }}
