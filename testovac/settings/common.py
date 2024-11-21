@@ -224,7 +224,7 @@ if "TESTOVAC_FRONT_ADMINS" in os.environ:
         ]
     )
 else:
-    ADMINS = ("David", "david.barbora@trojsten.sk")
+    ADMINS = [("David", "david.barbora@trojsten.sk")]
 
 if "TESTOVAC_FRONT_MANAGERS" in os.environ:
     MANAGERS = tuple(
