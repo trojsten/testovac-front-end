@@ -26,5 +26,5 @@ ALLOWED_HOSTS = requiredenv("TESTOVAC_FRONT_ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp-out.default.svc.cluster.local"
-DEFAULT_FROM_EMAIL = "testovac@ksp.sk"
-SERVER_EMAIL = "testovac@ksp.sk"
+DEFAULT_FROM_EMAIL = "davidb@ksp.sk"
+SERVER_EMAIL = "davidb@ksp.sk"
